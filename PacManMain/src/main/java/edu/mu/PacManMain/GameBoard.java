@@ -3,6 +3,7 @@ package edu.mu.PacManMain;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
@@ -18,7 +19,7 @@ public class GameBoard extends JFrame {
     private JPanel contentPane;
     private JPanel startScreen;
     private JPanel gameScreen;
-
+    private Maze maze;
 
 
 	/**
@@ -38,8 +39,6 @@ public class GameBoard extends JFrame {
 	}
 
 
-
-
     /**
      * Create the frame.
      */
@@ -56,10 +55,13 @@ public class GameBoard extends JFrame {
         startScreen.setBounds(0, 0, 434, 261);
         contentPane.add(startScreen);
         
+        maze = new Maze();
+        
         JButton StartButton = new JButton("Start Game");
         StartButton.setForeground(new Color(0, 128, 255));
         StartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	maze = new Maze();
                 showGameScreen();
             }
         });
@@ -76,7 +78,31 @@ public class GameBoard extends JFrame {
     }
     
     private void showGameScreen() {
-        startScreen.setVisible(false);
+    	startScreen.setVisible(false);
+        gameScreen.removeAll(); // Clear previous content
+        gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
+
+        for (int i = 0; i < maze.getGrid().length; i++) {
+            for (int j = 0; j < maze.getGrid()[0].length; j++) {
+                JLabel cell = new JLabel();
+                cell.setOpaque(true);
+                switch (maze.getGrid()[i][j]) {
+                    case 1:
+                        cell.setBackground(Color.BLACK); // Wall
+                        break;
+                    case 2:
+                        cell.setBackground(Color.YELLOW); // Pellet
+                        break;
+                    case 3:
+                        cell.setBackground(Color.RED); // Power-up
+                        break;
+                    default:
+                        cell.setBackground(Color.WHITE); // Empty space
+                }
+                gameScreen.add(cell);
+            }
+        }
+        gameScreen.validate(); // Validate the layout
         gameScreen.setVisible(true);
     }
     
@@ -84,4 +110,7 @@ public class GameBoard extends JFrame {
         startScreen.setVisible(true);
         gameScreen.setVisible(false);
     }
+
+
+
 }
