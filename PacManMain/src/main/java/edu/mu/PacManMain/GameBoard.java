@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.GridLayout;
 
 public class GameBoard extends JFrame {
 
@@ -17,6 +19,7 @@ public class GameBoard extends JFrame {
     private JPanel startScreen;
     private JPanel gameScreen;
 
+<<<<<<< Updated upstream
     /**
      * Launch the application.
      */
@@ -32,6 +35,43 @@ public class GameBoard extends JFrame {
             }
         });
     }
+=======
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GameBoard frame = new GameBoard();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GameBoard() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+
+		setContentPane(contentPane);
+		
+		JButton startButton = new JButton("Start Game");
+		startButton.setBackground(Color.BLACK);
+		startButton.setForeground(Color.BLUE);
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		contentPane.add(startButton);
+	}
+>>>>>>> Stashed changes
 
     /**
      * Create the frame.
