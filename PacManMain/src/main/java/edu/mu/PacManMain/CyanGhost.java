@@ -16,10 +16,6 @@ public class CyanGhost {
 
     public void move() 
     {
-        // Implement ghost movement logic here
-        // For example, you can randomly change direction or follow a predefined path
-
-        // Here's a simple example of random movement
         switch (random.nextInt(4)) 
         {
             case 0:

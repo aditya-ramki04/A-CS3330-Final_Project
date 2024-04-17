@@ -59,9 +59,7 @@ public class GameBoard extends JFrame {
         startScreen.setBackground(Color.BLACK);
         contentPane.add(startScreen);
         
-<<<<<<< Updated upstream
-        maze = new Maze();  
-=======
+
         maze = new Maze();
     //    ScoreTracking scoreTracker = new ScoreTracking();
         
@@ -75,7 +73,6 @@ public class GameBoard extends JFrame {
             }
         });
         startScreen.add(StartButton);
->>>>>>> Stashed changes
         
         // Create game screen panel
         gameScreen = new JPanel();
