@@ -96,6 +96,15 @@ public class GameBoard extends JFrame {
                     case 3:
                         cell.setBackground(Color.RED); // Power-up
                         break;
+                    case 4:
+                    	cell.setBackground(Color.GREEN); //cherry image
+                    	break;
+                    case 5: 
+                    	cell.setBackground(Color.PINK); //start area for ghost
+                    	break;
+                    case 6:
+                    	cell.setBackground(Color.GRAY);
+                    	break;
                     default:
                         cell.setBackground(Color.WHITE); // Empty space
                 }
