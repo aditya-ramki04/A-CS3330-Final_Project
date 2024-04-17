@@ -3,6 +3,7 @@ package edu.mu.PacManMain;
 public class ScoreTracking 
 {
 	private int score;
+	private static int highScore = 0;
 
     public ScoreTracking() 
     {
@@ -43,5 +44,15 @@ public class ScoreTracking
     public int getScore() 
     {
         return score;
+    }
+    
+ // Method to handle game over
+    public void gameOver() {
+        if (score > highScore) {
+            highScore = score;
+        }
+        System.out.println("Game Over");
+        System.out.println("Your Score: " + score);
+        System.out.println("High Score: " + highScore);
     }
 }
