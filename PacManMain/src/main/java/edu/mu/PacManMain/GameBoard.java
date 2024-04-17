@@ -59,7 +59,23 @@ public class GameBoard extends JFrame {
         startScreen.setBackground(Color.BLACK);
         contentPane.add(startScreen);
         
+<<<<<<< Updated upstream
         maze = new Maze();  
+=======
+        maze = new Maze();
+    //    ScoreTracking scoreTracker = new ScoreTracking();
+        
+        
+        JButton StartButton = new JButton("Start Game");
+        StartButton.setForeground(new Color(0, 128, 255));
+        StartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	maze = new Maze();
+                showGameScreen();
+            }
+        });
+        startScreen.add(StartButton);
+>>>>>>> Stashed changes
         
         // Create game screen panel
         gameScreen = new JPanel();

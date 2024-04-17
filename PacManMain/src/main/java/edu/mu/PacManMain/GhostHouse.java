@@ -16,7 +16,7 @@ public class GhostHouse {
         // Set initial positions of ghosts in the ghost house
         for (int y = ghostStartY; y < ghostStartY + ghostHouseHeight; y++) {
             for (int x = ghostStartX; x < ghostStartX + ghostHouseWidth; x++) {
-                maze.setTile(x, y, 5); // Assuming '5' is a ghost
+                maze.setTile(x, y, 10); // Assuming '10' is a ghost
             }
         }
     }

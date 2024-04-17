@@ -1,15 +1,17 @@
 package edu.mu.PacManMain;
 
 public class Pellet {
+    private int x;
+    private int y;
+    private boolean isActive;
 
-	private int x;
-	private int y;
-	public Pellet(int x, int y) {
-		// TODO Auto-generated constructor stub
-		this.x = x;
-		this.y = y;
-	}
-	public int getX() {
+    public Pellet(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.isActive = true;
+    }
+
+    public int getX() {
         return x;
     }
 
@@ -17,4 +19,12 @@ public class Pellet {
         return y;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void consume() {
+        this.isActive = false;
+    }
 }
+
