@@ -1,17 +1,20 @@
 package edu.mu.PacManMain;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 public class GameBoard extends JFrame {
 
@@ -52,20 +55,11 @@ public class GameBoard extends JFrame {
         
         // Create start screen panel
         startScreen = new JPanel();
-        startScreen.setBounds(0, 0, 434, 261);
+        startScreen.setBounds(0, 0, 434, 350);
+        startScreen.setBackground(Color.BLACK);
         contentPane.add(startScreen);
         
-        maze = new Maze();
-        
-        JButton StartButton = new JButton("Start Game");
-        StartButton.setForeground(new Color(0, 128, 255));
-        StartButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	maze = new Maze();
-                showGameScreen();
-            }
-        });
-        startScreen.add(StartButton);
+        maze = new Maze();  
         
         // Create game screen panel
         gameScreen = new JPanel();
@@ -116,9 +110,44 @@ public class GameBoard extends JFrame {
     }
     
     private void showStartScreen() {
+        startScreen.setLayout(null); // Use absolute layout for precise positioning
+
+        // Add Pac-Man text title
+        JLabel titleLabel = new JLabel("PAC-MAN");
+        titleLabel.setForeground(Color.YELLOW);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        titleLabel.setBounds(130, 10, 200, 50);
+        startScreen.add(titleLabel);
+
+        // Add Pac-Man image
+        ImageIcon pacManIcon = new ImageIcon("images/pacman.png"); // Assuming there's an image file named "pacman.png"
+        Image image = pacManIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(image);
+        JLabel pacManLabel = new JLabel(resizedIcon);
+        pacManLabel.setBounds(170, 100, 100, 100);
+        startScreen.add(pacManLabel);
+
+     // Calculate x-coordinate to center the button horizontally
+        int buttonX = (startScreen.getWidth() - 150) / 2;
+
+        // Add start button
+        JButton startButton = new JButton("Start Game");
+        startButton.setForeground(new Color(0, 128, 255));
+        startButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                maze = new Maze();
+                showGameScreen();
+            }
+        });
+        startButton.setBounds(buttonX, 220, 150, 40);
+        startScreen.add(startButton);
+
+        // Set start screen panel visibility and hide game screen
         startScreen.setVisible(true);
         gameScreen.setVisible(false);
     }
+
 
 
 
