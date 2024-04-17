@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.CardLayout;
 
 public class GameBoard extends JFrame {
 
@@ -51,13 +53,12 @@ public class GameBoard extends JFrame {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        contentPane.setLayout(null); // Use absolute layout for simplicity
+        contentPane.setLayout(new CardLayout(0, 0));
         
         // Create start screen panel
         startScreen = new JPanel();
-        startScreen.setBounds(0, 0, 434, 350);
         startScreen.setBackground(Color.BLACK);
-        contentPane.add(startScreen);
+        contentPane.add(startScreen, "name_13981319384000");
         
 
         maze = new Maze();
@@ -76,9 +77,8 @@ public class GameBoard extends JFrame {
         
         // Create game screen panel
         gameScreen = new JPanel();
-        gameScreen.setBounds(0, 0, 434, 261);
         gameScreen.setBackground(Color.WHITE); // Change color for visibility
-        contentPane.add(gameScreen);
+        contentPane.add(gameScreen, "name_13981348637700");
         
         // Initially show the start screen
         showStartScreen();
@@ -137,23 +137,24 @@ public class GameBoard extends JFrame {
         Image image = pacManIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(image);
         JLabel pacManLabel = new JLabel(resizedIcon);
-        pacManLabel.setBounds(170, 100, 100, 100);
+        pacManLabel.setBounds(170, 75, 100, 100);
         startScreen.add(pacManLabel);
 
      // Calculate x-coordinate to center the button horizontally
-        int buttonX = (startScreen.getWidth() - 150) / 2;
 
-        // Add start button
+     // Add start button
         JButton startButton = new JButton("Start Game");
-        startButton.setForeground(new Color(0, 128, 255));
-        startButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        startButton.setFont(new Font("Arial", Font.BOLD, 20)); // Set font style and size
+        startButton.setForeground(Color.WHITE); // Set text color
+        startButton.setBackground(new Color(0, 128, 255)); // Set background color
+        startButton.setFocusPainted(false); // Remove focus border
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 maze = new Maze();
                 showGameScreen();
             }
         });
-        startButton.setBounds(buttonX, 220, 150, 40);
+        startButton.setBounds(140, 185, 150, 40);
         startScreen.add(startButton);
 
         // Set start screen panel visibility and hide game screen
