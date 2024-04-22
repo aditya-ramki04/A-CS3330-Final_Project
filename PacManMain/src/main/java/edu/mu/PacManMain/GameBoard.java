@@ -13,6 +13,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class GameBoard extends JFrame {
     private JPanel startScreen;
     private JPanel gameScreen;
     private Maze maze;
+    private PacMan pacMan;
     //private ImageIcon pauseIcon;
     //private ImageIcon playIcon;
     
@@ -93,11 +96,46 @@ public class GameBoard extends JFrame {
         startScreen.setBackground(Color.BLACK);
         contentPane.add(startScreen, "name_13981319384000");
         
+        gameScreen = new JPanel();
+        gameScreen.setBackground(Color.WHITE); // Change color for visibility
+        
 
+        
         maze = new Maze();
+        pacMan = new PacMan(30,30);
     //    ScoreTracking scoreTracker = new ScoreTracking();
         
+        gameScreen.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                int changeX = 0, changeY = 0;
+
+                // Determine direction based on key pressed
+                if (keyCode == KeyEvent.VK_LEFT) {
+                    changeX = -1; // Move left
+                } else if (keyCode == KeyEvent.VK_RIGHT) {
+                    changeX = 1; // Move right
+                } else if (keyCode == KeyEvent.VK_UP) {
+                    changeY = -1; // Move up
+                } else if (keyCode == KeyEvent.VK_DOWN) {
+                    changeY = 1; // Move down
+                }
+
+                // Move Pac-Man
+                pacMan.movePac(changeX, changeY, maze);
+
+                // Repaint game screen to reflect Pac-Man's new position
+              //  gameScreen.repaint();
+            }
+        });
+
         
+        gameScreen.setFocusable(true);
+        gameScreen.requestFocusInWindow();
+        
+        // Request focus for the game screen to ensure key events are captured
+
         JButton StartButton = new JButton("Start Game");
         StartButton.setForeground(new Color(0, 128, 255));
         StartButton.addActionListener(new ActionListener() {
@@ -108,10 +146,14 @@ public class GameBoard extends JFrame {
         });
         startScreen.add(StartButton);
         
+        
+        
         // Create game screen panel
         gameScreen = new JPanel();
         gameScreen.setBackground(Color.WHITE); // Change color for visibility
         contentPane.add(gameScreen, "name_13981348637700");
+        
+
         
         //nmc
         //Pause and Play images
@@ -127,6 +169,10 @@ public class GameBoard extends JFrame {
     	startScreen.setVisible(false);
         gameScreen.removeAll(); // Clear previous content
         gameScreen.setLayout(new BorderLayout());
+        
+       
+        
+        
         //gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
         
         //nmc
@@ -134,11 +180,8 @@ public class GameBoard extends JFrame {
        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
        JButton pauseButton = new JButton("Pause");
        //JButton pauseButton = new JButton();
-       pauseButton.setText("Pause");
-       //pauseButton.setBorderPainted(false);// removes border
-       //pauseButton.setContentAreaFilled(false); //removes def bg
-       // pauseButton.setFocusPainted(false); //removes focus border
-        pauseButton.addActionListener(new ActionListener() {
+       pauseButton.setText("Pause");   
+       pauseButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		togglePause();//changes pause state when button is clicked
         		pauseButton.setText(isPaused ? "Play" : "Pause"); //update button text on state
@@ -305,47 +348,21 @@ public class GameBoard extends JFrame {
         }
     }
         gameScreen.add(gridPanel, BorderLayout.CENTER);
+        
+//        ImageIcon pacManIcon = new ImageIcon("images/pacman.png");
+//        JLabel pacManLabel = new JLabel(pacManIcon);
+// 
+//        gameScreen.add(pacManLabel,BorderLayout.CENTER);
+        
         gameScreen.validate();
         gameScreen.setVisible(true);
+        
+        
     }
     //nmc
         
+        
 
-//        for (int i = 0; i < maze.getGrid().length; i++) {
-//            for (int j = 0; j < maze.getGrid()[0].length; j++) {
-//                JLabel cell = new JLabel();
-//                cell.setOpaque(true);
-//                switch (maze.getGrid()[i][j]) {
-//                    case 1:
-//                        cell.setBackground(Color.BLACK); // Wall
-//                        break;
-//                    case 2:
-//                        cell.setBackground(Color.YELLOW); // Pellet
-//                        break;
-//                    case 3:
-//                        cell.setBackground(Color.RED); // Power-up
-//                        break;
-//                    case 4:
-//                    	cell.setBackground(Color.GREEN); //cherry image
-//                    	break;
-//                    case 5: 
-//                    	cell.setBackground(Color.PINK); //start area for ghost
-//                    	break;
-//                    case 6:
-//                    	cell.setBackground(Color.GRAY);
-//                    	break;
-//                    default:
-//                        cell.setBackground(Color.WHITE); // Empty space
-//                }
-//                gameScreen.add(cell);
-//            }
-//        }
-//        gameScreen.validate(); // Validate the layout
-//        gameScreen.setVisible(true);
-//    }
-        
-        
-    
     private void showStartScreen() {
         startScreen.setLayout(null); // Use absolute layout for precise positioning
 

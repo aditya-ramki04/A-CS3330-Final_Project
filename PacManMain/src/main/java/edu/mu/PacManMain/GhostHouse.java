@@ -17,6 +17,7 @@ public class GhostHouse {
         for (int y = ghostStartY; y < ghostStartY + ghostHouseHeight; y++) {
             for (int x = ghostStartX; x < ghostStartX + ghostHouseWidth; x++) {
                 maze.setTile(x, y, 10); // Assuming '10' is a ghost
+    
             }
         }
     }

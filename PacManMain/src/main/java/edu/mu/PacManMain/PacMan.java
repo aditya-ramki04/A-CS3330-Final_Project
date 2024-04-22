@@ -10,23 +10,10 @@ public class PacMan {
         this.y = startY;
     }
     
-    public void movePac(Movement direction, GameBoard gboard, Maze maze) {
-        int newX = x;
-        int newY = y;
-        switch (direction) {
-        case UP:
-            newY--; // Decrease y to move up
-            break;
-        case DOWN:
-            newY++; // Increase y to move down
-            break;
-        case LEFT:
-            newX--; // Decrease x to move left
-            break;
-        case RIGHT:
-            newX++; // Increase x to move right
-            break;
-    }
+    public void movePac(int changeX, int changeY, Maze maze) {
+        int newX = x + changeX;
+        int newY = y + changeY;
+
 
     // Check for maze boundaries and wrap around if necessary
     // Corrected the maze boundary conditions according to the grid dimensions
