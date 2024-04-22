@@ -112,11 +112,12 @@ public class GameBoard extends JFrame {
     private void showGameScreen() {
     	startScreen.setVisible(false);
         gameScreen.removeAll(); // Clear previous content
-        //gameScreen.setLayout(new BorderLayout());
-        gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
+        gameScreen.setLayout(new BorderLayout());
+        //gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
         
         //nmc
-        JButton pauseButton = new JButton();
+       JPanel play_pausePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+       JButton pauseButton = new JButton("Pause");
        //pauseButton.setBorderPainted(false);// removes border
        //pauseButton.setContentAreaFilled(false); //removes def bg
        // pauseButton.setFocusPainted(false); //removes focus border
@@ -126,43 +127,78 @@ public class GameBoard extends JFrame {
         		pauseButton.setText(isPaused ? "Play" : "Pause"); //update button text on state
         	}
         });
-        pauseButton.setText("Pause"); //setting starting button to pause icon
-        gameScreen.add(pauseButton);
-        //nmc
+        play_pausePanel.add(pauseButton);
+        gameScreen.add(play_pausePanel, BorderLayout.NORTH);
         
-
-        for (int i = 0; i < maze.getGrid().length; i++) {
-            for (int j = 0; j < maze.getGrid()[0].length; j++) {
-                JLabel cell = new JLabel();
-                cell.setOpaque(true);
-                switch (maze.getGrid()[i][j]) {
-                    case 1:
-                        cell.setBackground(Color.BLACK); // Wall
-                        break;
-                    case 2:
-                        cell.setBackground(Color.YELLOW); // Pellet
-                        break;
-                    case 3:
-                        cell.setBackground(Color.RED); // Power-up
-                        break;
-                    case 4:
-                    	cell.setBackground(Color.GREEN); //cherry image
-                    	break;
-                    case 5: 
-                    	cell.setBackground(Color.PINK); //start area for ghost
-                    	break;
-                    case 6:
-                    	cell.setBackground(Color.GRAY);
-                    	break;
-                    default:
-                        cell.setBackground(Color.WHITE); // Empty space
-                }
-                gameScreen.add(cell);
+        JPanel gridPanel = new JPanel(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
+        for(int i = 0; i < maze.getGrid().length; i++) {
+        	for(int j = 0; j < maze.getGrid()[0].length; j++) {
+        		JLabel cell = new JLabel();
+        		cell.setOpaque(true);
+        		switch (maze.getGrid()[i][j]) {
+                case 1:
+                    cell.setBackground(Color.BLACK); // Wall
+                    break;
+                case 2:
+                    cell.setBackground(Color.YELLOW); // Pellet
+                    break;
+                case 3:
+                    cell.setBackground(Color.RED); // Power-up
+                    break;
+                case 4:
+                	cell.setBackground(Color.GREEN); //cherry image
+                	break;
+                case 5: 
+                	cell.setBackground(Color.PINK); //start area for ghost
+                	break;
+                case 6:
+                	cell.setBackground(Color.GRAY);
+                	break;
+                default:
+                    cell.setBackground(Color.WHITE); // Empty space
             }
+            gridPanel.add(cell);
         }
-        gameScreen.validate(); // Validate the layout
+    }
+        gameScreen.add(gridPanel, BorderLayout.CENTER);
+        gameScreen.validate();
         gameScreen.setVisible(true);
     }
+    //nmc
+        
+
+//        for (int i = 0; i < maze.getGrid().length; i++) {
+//            for (int j = 0; j < maze.getGrid()[0].length; j++) {
+//                JLabel cell = new JLabel();
+//                cell.setOpaque(true);
+//                switch (maze.getGrid()[i][j]) {
+//                    case 1:
+//                        cell.setBackground(Color.BLACK); // Wall
+//                        break;
+//                    case 2:
+//                        cell.setBackground(Color.YELLOW); // Pellet
+//                        break;
+//                    case 3:
+//                        cell.setBackground(Color.RED); // Power-up
+//                        break;
+//                    case 4:
+//                    	cell.setBackground(Color.GREEN); //cherry image
+//                    	break;
+//                    case 5: 
+//                    	cell.setBackground(Color.PINK); //start area for ghost
+//                    	break;
+//                    case 6:
+//                    	cell.setBackground(Color.GRAY);
+//                    	break;
+//                    default:
+//                        cell.setBackground(Color.WHITE); // Empty space
+//                }
+//                gameScreen.add(cell);
+//            }
+//        }
+//        gameScreen.validate(); // Validate the layout
+//        gameScreen.setVisible(true);
+//    }
         
         
     
