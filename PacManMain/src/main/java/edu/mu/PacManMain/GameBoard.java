@@ -101,8 +101,8 @@ public class GameBoard extends JFrame {
         
         //nmc
         //Pause and Play images
-        //pauseIcon = new ImageIcon("PauseLogo.png");
-        //playIcon = new ImageIcon("PlayLogo.png");
+//        pauseIcon = new ImageIcon("./images/pause.png");
+//        playIcon = new ImageIcon("./images/play.png");  
         //nmc
         
         // Initially show the start screen
@@ -118,6 +118,8 @@ public class GameBoard extends JFrame {
         //nmc
        JPanel play_pausePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
        JButton pauseButton = new JButton("Pause");
+       //JButton pauseButton = new JButton();
+       pauseButton.setText("Pause");
        //pauseButton.setBorderPainted(false);// removes border
        //pauseButton.setContentAreaFilled(false); //removes def bg
        // pauseButton.setFocusPainted(false); //removes focus border
@@ -125,8 +127,14 @@ public class GameBoard extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		togglePause();//changes pause state when button is clicked
         		pauseButton.setText(isPaused ? "Play" : "Pause"); //update button text on state
+//        		if(isPaused) {
+//        			pauseButton.setIcon(playIcon);
+//        		}else {
+//        			pauseButton.setIcon(pauseIcon);
+//        		}
         	}
         });
+        
         play_pausePanel.add(pauseButton);
         gameScreen.add(play_pausePanel, BorderLayout.NORTH);
         
