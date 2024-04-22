@@ -1,6 +1,7 @@
 package edu.mu.PacManMain;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JFrame;
@@ -16,7 +17,11 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 
 public class GameBoard extends JFrame {
 
@@ -25,8 +30,22 @@ public class GameBoard extends JFrame {
     private JPanel startScreen;
     private JPanel gameScreen;
     private Maze maze;
-
-
+    //private ImageIcon pauseIcon;
+    //private ImageIcon playIcon;
+    
+    //nmc
+    private boolean isPaused = false;
+    
+    private void togglePause() {
+    	isPaused = !isPaused;
+    	if(isPaused) {
+    		// need to add logic: stop game timer, freeze Pac-Man and ghosts
+    	}else {
+    		// when the game is resumed: resume game timer, un-freeze Pack-Man and ghosts
+    	}
+    }
+    //nmc 
+    
 	/**
 	 * Launch the application.
 	 */
@@ -80,6 +99,12 @@ public class GameBoard extends JFrame {
         gameScreen.setBackground(Color.WHITE); // Change color for visibility
         contentPane.add(gameScreen, "name_13981348637700");
         
+        //nmc
+        //Pause and Play images
+        //pauseIcon = new ImageIcon("PauseLogo.png");
+        //playIcon = new ImageIcon("PlayLogo.png");
+        //nmc
+        
         // Initially show the start screen
         showStartScreen();
     }
@@ -87,7 +112,24 @@ public class GameBoard extends JFrame {
     private void showGameScreen() {
     	startScreen.setVisible(false);
         gameScreen.removeAll(); // Clear previous content
+        //gameScreen.setLayout(new BorderLayout());
         gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
+        
+        //nmc
+        JButton pauseButton = new JButton();
+       //pauseButton.setBorderPainted(false);// removes border
+       //pauseButton.setContentAreaFilled(false); //removes def bg
+       // pauseButton.setFocusPainted(false); //removes focus border
+        pauseButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		togglePause();//changes pause state when button is clicked
+        		pauseButton.setText(isPaused ? "Play" : "Pause"); //update button text on state
+        	}
+        });
+        pauseButton.setText("Pause"); //setting starting button to pause icon
+        gameScreen.add(pauseButton);
+        //nmc
+        
 
         for (int i = 0; i < maze.getGrid().length; i++) {
             for (int j = 0; j < maze.getGrid()[0].length; j++) {
@@ -121,6 +163,8 @@ public class GameBoard extends JFrame {
         gameScreen.validate(); // Validate the layout
         gameScreen.setVisible(true);
     }
+        
+        
     
     private void showStartScreen() {
         startScreen.setLayout(null); // Use absolute layout for precise positioning
