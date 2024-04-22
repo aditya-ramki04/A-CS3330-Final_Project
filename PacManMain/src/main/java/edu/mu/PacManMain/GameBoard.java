@@ -8,10 +8,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -78,7 +82,7 @@ public class GameBoard extends JFrame {
      */
     public GameBoard() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 800, 800); //450,300 matthew said my limit was 800 :(
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -160,6 +164,27 @@ public class GameBoard extends JFrame {
         buttonPanel.add(audioButton);
         gameScreen.add(buttonPanel, BorderLayout.NORTH);
         
+        //images for the map
+        BufferedImage pelletImg = null;
+		try {
+			pelletImg = ImageIO.read(new File("images/pellet.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon pelletIcon = new ImageIcon(pelletImg.getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        
+        BufferedImage wallImg = null;
+		try {
+			wallImg = ImageIO.read(new File("images/wall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon wallIcon = new ImageIcon(wallImg.getScaledInstance(40, 20, Image.SCALE_SMOOTH));
+        
+        
+        
         
         
         JPanel gridPanel = new JPanel(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
@@ -169,10 +194,10 @@ public class GameBoard extends JFrame {
         		cell.setOpaque(true);
         		switch (maze.getGrid()[i][j]) {
                 case 1:
-                    cell.setBackground(Color.BLACK); // Wall
+                	cell.setIcon(wallIcon); // Wall
                     break;
                 case 2:
-                    cell.setBackground(Color.YELLOW); // Pellet
+                	cell.setIcon(pelletIcon); // Pellet
                     break;
                 case 3:
                     cell.setBackground(Color.RED); // Power-up
