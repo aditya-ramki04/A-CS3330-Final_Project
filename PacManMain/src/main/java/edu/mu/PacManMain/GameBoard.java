@@ -174,17 +174,83 @@ public class GameBoard extends JFrame {
 		}
         ImageIcon pelletIcon = new ImageIcon(pelletImg.getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         
-        BufferedImage wallImg = null;
+        BufferedImage topwallImg = null;
 		try {
-			wallImg = ImageIO.read(new File("images/wall.png"));
+			topwallImg = ImageIO.read(new File("images/topwall.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon wallIcon = new ImageIcon(wallImg.getScaledInstance(40, 20, Image.SCALE_SMOOTH));
+        ImageIcon topwallIcon = new ImageIcon(topwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        
+        BufferedImage toprightwallImg = null;
+		try {
+			toprightwallImg = ImageIO.read(new File("images/toprightwall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon toprightwallIcon = new ImageIcon(toprightwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
         
         
+        BufferedImage rightsidewallImg = null;
+		try {
+			rightsidewallImg = ImageIO.read(new File("images/rightsidewall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon rightsidewallIcon = new ImageIcon(rightsidewallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+
         
+        BufferedImage bottomrightwallImg = null;
+		try {
+			bottomrightwallImg = ImageIO.read(new File("images/bottomrightwall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon bottomrightwallIcon = new ImageIcon(bottomrightwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        
+        
+        BufferedImage bottomwallImg = null;
+		try {
+			bottomwallImg = ImageIO.read(new File("images/bottomwall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon bottomwallIcon = new ImageIcon(bottomwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        
+        
+        BufferedImage bottomleftwallImg = null;
+		try {
+			bottomleftwallImg = ImageIO.read(new File("images/bottomleftwall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon bottomleftwallIcon = new ImageIcon(bottomleftwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        
+        
+        BufferedImage topleftwallImg = null;
+		try {
+			topleftwallImg = ImageIO.read(new File("images/topleftwall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon topleftwallIcon = new ImageIcon(topleftwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        
+        
+        BufferedImage leftsidewallImg = null;
+		try {
+			leftsidewallImg = ImageIO.read(new File("images/leftsidewall.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon leftsidewallIcon = new ImageIcon(leftsidewallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
         
         
         JPanel gridPanel = new JPanel(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
@@ -194,7 +260,7 @@ public class GameBoard extends JFrame {
         		cell.setOpaque(true);
         		switch (maze.getGrid()[i][j]) {
                 case 1:
-                	cell.setIcon(wallIcon); // Wall
+                	cell.setIcon(topwallIcon); // Wall
                     break;
                 case 2:
                 	cell.setIcon(pelletIcon); // Pellet
@@ -210,6 +276,27 @@ public class GameBoard extends JFrame {
                 	break;
                 case 6:
                 	cell.setBackground(Color.GRAY);
+                	break;
+                case 7:
+                	cell.setIcon(toprightwallIcon); // Pellet
+                	break;
+                case 8:
+                	cell.setIcon(rightsidewallIcon); // Pellet
+                	break;
+                case 9:
+                	cell.setIcon(bottomrightwallIcon); // Pellet
+                	break;
+                case 10:
+                	cell.setIcon(bottomleftwallIcon); // Pellet
+                	break;
+                case 11:
+                	cell.setIcon(topleftwallIcon); // Pellet
+                	break;
+                case 12:
+                	cell.setIcon(bottomwallIcon); // Pellet
+                	break;
+                case 13:
+                	cell.setIcon(leftsidewallIcon); // Pellet
                 	break;
                 default:
                     cell.setBackground(Color.WHITE); // Empty space
