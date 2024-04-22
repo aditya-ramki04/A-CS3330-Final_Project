@@ -44,6 +44,16 @@ public class GameBoard extends JFrame {
     		// when the game is resumed: resume game timer, un-freeze Pack-Man and ghosts
     	}
     }
+    private boolean isAudioMuted = false;
+    
+    private void toggleAudio() {
+    	isAudioMuted = !isAudioMuted;
+    	if(isAudioMuted) {
+    		// audio mute logic: stop bg music
+    	}else {
+    		// audio unmute logic: play bg music
+    	}
+    }
     //nmc 
     
 	/**
@@ -116,7 +126,8 @@ public class GameBoard extends JFrame {
         //gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
         
         //nmc
-       JPanel play_pausePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        //play/pause button
+       JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
        JButton pauseButton = new JButton("Pause");
        //JButton pauseButton = new JButton();
        pauseButton.setText("Pause");
@@ -135,8 +146,21 @@ public class GameBoard extends JFrame {
         	}
         });
         
-        play_pausePanel.add(pauseButton);
-        gameScreen.add(play_pausePanel, BorderLayout.NORTH);
+        //audio control button
+        JButton audioButton = new JButton();
+        audioButton.setText("Audio: ON");
+        audioButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		toggleAudio();
+        		audioButton.setText(isAudioMuted ? "Audio: OFF" : "Audio: ON");
+        	}
+        });
+        
+        buttonPanel.add(pauseButton);        
+        buttonPanel.add(audioButton);
+        gameScreen.add(buttonPanel, BorderLayout.NORTH);
+        
+        
         
         JPanel gridPanel = new JPanel(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
         for(int i = 0; i < maze.getGrid().length; i++) {
