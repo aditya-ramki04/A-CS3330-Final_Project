@@ -25,9 +25,11 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class GameBoard extends JFrame {
 
@@ -37,6 +39,7 @@ public class GameBoard extends JFrame {
     private JPanel gameScreen;
     private Maze maze;
     private PacMan pacMan;
+    private Clip bgMusic;
     //private ImageIcon pauseIcon;
     //private ImageIcon playIcon;
     
@@ -56,9 +59,9 @@ public class GameBoard extends JFrame {
     private void toggleAudio() {
     	isAudioMuted = !isAudioMuted;
     	if(isAudioMuted) {
-    		// audio mute logic: stop bg music
+            stopBackgroundMusic();
     	}else {
-    		// audio unmute logic: play bg music
+    		playBackgroundMusic();
     	}
     }
     //nmc 
@@ -202,7 +205,6 @@ public class GameBoard extends JFrame {
         		audioButton.setText(isAudioMuted ? "Audio: OFF" : "Audio: ON");
         	}
         });
-        
         buttonPanel.add(pauseButton);        
         buttonPanel.add(audioButton);
         gameScreen.add(buttonPanel, BorderLayout.NORTH);
@@ -393,6 +395,7 @@ public class GameBoard extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 maze = new Maze();
                 showGameScreen();
+                playBackgroundMusic();
             }
         });
         startButton.setBounds(140, 185, 150, 40);
@@ -402,7 +405,24 @@ public class GameBoard extends JFrame {
         startScreen.setVisible(true);
         gameScreen.setVisible(false);
     }
+    private void playBackgroundMusic() {
+        try {
+            File audioFile = new File("./Audio/pacman_beginning.wav"); // Change the path to your audio file
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            bgMusic = AudioSystem.getClip();
+            bgMusic.open(audioStream);
+            bgMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void stopBackgroundMusic() {
+        if (bgMusic != null && bgMusic.isRunning()) {
+            bgMusic.stop();
+            bgMusic.close();
+        }
+    }
 
 
 
