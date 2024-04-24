@@ -105,9 +105,7 @@ public class GameBoard extends JFrame {
 
         
         maze = new Maze();
-        pacMan = new PacMan(30,30);
-    //    ScoreTracking scoreTracker = new ScoreTracking();
-        
+        pacMan = new PacMan(40, 40); // Set initial position (1, 1) or any other position you want
         gameScreen.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -129,7 +127,7 @@ public class GameBoard extends JFrame {
                 pacMan.movePac(changeX, changeY, maze);
 
                 // Repaint game screen to reflect Pac-Man's new position
-              //  gameScreen.repaint();
+                gameScreen.repaint();
             }
         });
 
@@ -172,10 +170,25 @@ public class GameBoard extends JFrame {
     	startScreen.setVisible(false);
         gameScreen.removeAll(); // Clear previous content
         gameScreen.setLayout(new BorderLayout());
+         
+        ImageIcon pacManIcon = new ImageIcon("images/pacmanrightopen.png");
+        JLabel pacManLabel = new JLabel(pacManIcon);
         
-       
-        
-        
+        // Calculate Pac-Man's position relative to the maze grid
+        int pacManGridX = pacMan.getX(); // Assuming Pac-Man's position is represented in grid coordinates
+        int pacManGridY = pacMan.getY();
+        int cellSize = 10; // Assuming each cell in the grid is 36x36 pixels
+
+        // Calculate the actual position of Pac-Man within the grid layout
+        int pacManX = pacManGridX * cellSize;
+        int pacManY = pacManGridY * cellSize;
+
+        // Set the position of Pac-Man
+        pacManLabel.setBounds(pacManX, pacManY, 100, 50); 
+
+        // Add Pac-Man to the game screen
+        gameScreen.add(pacManLabel);
+
         //gameScreen.setLayout(new GridLayout(maze.getGrid().length, maze.getGrid()[0].length)); // Grid layout based on maze size
         
         //nmc
@@ -208,7 +221,7 @@ public class GameBoard extends JFrame {
         buttonPanel.add(pauseButton);        
         buttonPanel.add(audioButton);
         gameScreen.add(buttonPanel, BorderLayout.NORTH);
-        
+//
         //images for the map
         BufferedImage pelletImg = null;
 		try {
@@ -237,7 +250,7 @@ public class GameBoard extends JFrame {
 		}
         ImageIcon toprightwallIcon = new ImageIcon(toprightwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
         
-        
+    
         BufferedImage rightsidewallImg = null;
 		try {
 			rightsidewallImg = ImageIO.read(new File("images/rightsidewall.png"));
@@ -351,10 +364,9 @@ public class GameBoard extends JFrame {
     }
         gameScreen.add(gridPanel, BorderLayout.CENTER);
         
-//        ImageIcon pacManIcon = new ImageIcon("images/pacman.png");
-//        JLabel pacManLabel = new JLabel(pacManIcon);
-// 
-//        gameScreen.add(pacManLabel,BorderLayout.CENTER);
+        
+        
+      //  gameScreen.add(pacManLabel);
         
         gameScreen.validate();
         gameScreen.setVisible(true);
