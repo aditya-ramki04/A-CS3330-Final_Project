@@ -1,65 +1,65 @@
 package edu.mu.PacManMain;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 public class PacMan {
-    
-    private int x;
-    private int y;
+    private JLabel label;
+    private int x, y;
+    private Maze maze;
+    private static final int PACMAN_SPEED = 5;
 
-    public PacMan(int startX, int startY) {
-        this.x = startX;
-        this.y = startY;
-    }
-    
-    public void movePac(int changeX, int changeY, Maze maze) {
-        int newX = x + changeX;
-        int newY = y + changeY;
-
-
-    // Check for maze boundaries and wrap around if necessary
-    // Corrected the maze boundary conditions according to the grid dimensions
-    int width = maze.getGrid()[0].length;
-    int height = maze.getGrid().length;
-//
-//    if (newX < 0) {
-//        newX = width - 1;  // Wrap to the right side of the maze
-//    } else if (newX >= width) {
-//        newX = 0;  // Wrap to the left side of the maze
-//    }
-//
-//    if (newY < 0) {
-//        newY = height - 1;  // Wrap to the bottom of the maze
-//    } else if (newY >= height) {
-//        newY = 0;  // Wrap to the top of the maze
-//    }
-//
-//    // Checking if the new position is a wall
-//    if (maze.getTile(newX, newY) != 1) {  // Assuming 1 represents walls
-//        x = newX;
-//        y = newY;
-//    }
-//}
-//    private void processMove(int x, int y) {
-//        int currentTile = maze.getTile(x, y);
-//
-//        switch (currentTile) {
-//            case 2: // Normal pellet
-//                ScoreTracking.eatDot();
-//                maze.setTile(x, y, 0); // Set the tile to empty after eating the pellet
-//                break;
-//            case 3: // Power pellet
-//                scoreTracker.eatPowerPellet();
-//                maze.setTile(x, y, 0); // Set the tile to empty after eating the power pellet
-//                break;
-//        }
-//        updateGameDisplay();
+    public PacMan(String imagePath, Maze maze, int cellSize) {
+        this.maze = maze;
+        this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
     }
 
-public int getX() {
-    return x;
-}
+    public JLabel getLabel() {
+        return label;
+    }
 
-public int getY() {
-    return y;
-}
-}
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+        label.setBounds(x, y, 50, 50);
+    }
 
+    public void move(KeyEvent evt) {
+        int keyCode = evt.getKeyCode();
+        int nextX = x;
+        int nextY = y;
+
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                nextY -= PACMAN_SPEED;
+                break;
+            case KeyEvent.VK_DOWN:
+                nextY += PACMAN_SPEED;
+                break;
+            case KeyEvent.VK_LEFT:
+                nextX -= PACMAN_SPEED;
+                break;
+            case KeyEvent.VK_RIGHT:
+                nextX += PACMAN_SPEED;
+                break;
+            default:
+                break;
+        }
+
+        // Check if the next position is valid (not hitting a wall)
+        if (isValidMove(nextX, nextY)) {
+            x = nextX;
+            y = nextY;
+        }
+    }
+
+    private boolean isValidMove(int x, int y) {
+        // Check if the next position is within the maze bounds and not hitting a wall
+        return maze.isValidMove(x, y);
+    }
+
+    public void updatePosition() {
+        label.setLocation(x, y);
+    }
+}
