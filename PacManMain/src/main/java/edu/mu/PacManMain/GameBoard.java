@@ -17,8 +17,8 @@ public class GameBoard extends JFrame {
     private JPanel contentPanel;
     private PacMan pacman;
     private Maze maze;
-    
-  //  private JPanel startScreen;
+
+    private JPanel startScreen;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -42,6 +42,8 @@ public class GameBoard extends JFrame {
         contentPanel.setLayout(new OverlayLayout(contentPanel)); // Using absolute positioning
 
         // Initialize Pacman
+        
+        showStartScreen();
         
         int[][] mapGrid = {
         		{11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
@@ -238,30 +240,37 @@ public class GameBoard extends JFrame {
             }
         });
         timer.start();
+        
     }
-//    private void showStartScreen() {
-//    	startScreen = new JPanel();
-//        startScreen.setLayout(new BorderLayout());
-//
-//        JLabel titleLabel = new JLabel("Welcome to Pac-Man!");
-//        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-//        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        startScreen.add(titleLabel, BorderLayout.NORTH);
-//
-//        JButton startButton = new JButton("Start Game");
-//        startButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Start the game by removing the start screen and showing the game board
-//                contentPanel.remove(startScreen);
-//                contentPanel.revalidate();
-//                contentPanel.repaint();
-//            }
-//        });
-//        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-//        startScreen.add(startButton, BorderLayout.CENTER);
-//
-//        contentPanel.add(startScreen);
-//    }
+ 
+    private void showStartScreen() {
+        startScreen = new JPanel();
+        startScreen.setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Welcome to Pac-Man!");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        startScreen.add(titleLabel, BorderLayout.NORTH);
+
+        JButton startButton = new JButton("Start Game");
+        startButton.setFont(new Font("Arial", Font.BOLD, 16));
+        startButton.setBackground(Color.GREEN); // Customize background color
+        startButton.setForeground(Color.WHITE); // Customize foreground (text) color
+        startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Customize border
+        startButton.setFocusPainted(false); // Remove focus border
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Start the game by removing the start screen and showing the game board
+                contentPanel.remove(startScreen);
+                contentPanel.revalidate();
+                contentPanel.repaint();
+            }
+        });
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startScreen.add(startButton, BorderLayout.CENTER);
+
+        contentPanel.add(startScreen);
+    }
 }
 
