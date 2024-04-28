@@ -14,7 +14,8 @@ public class Maze {
         // Check if Pacman is within bounds of the maze
         if (cellX >= 0 && cellX < mapGrid[0].length && cellY >= 0 && cellY < mapGrid.length) {
             int cellValue = mapGrid[cellY][cellX];
-            return cellValue != 1; // Assuming 1 represents a wall
+            return cellValue != 1 && cellValue != 10 && cellValue != 11 && cellValue != 12 &&
+                    cellValue != 13 && cellValue != 14 && cellValue != 15 && cellValue != 16; // Assuming 1 represents a wall
         }
         return false;
     }
