@@ -8,7 +8,10 @@ public class PacMan {
     private JLabel label;
     private int x, y;
     private Maze maze;
-    private static final int PACMAN_SPEED = 8;
+    private static final int PACMAN_SPEED = 38;
+    
+    private int cellSize = 38; // Rounded from 38.09 for simplicity
+
     
     private static final String PACMAN_RIGHT_IMAGE_OPEN = "images/pacmanrightopen.png";
     private static final String PACMAN_LEFT_IMAGE_OPEN = "images/pacmanleftopen.png";
@@ -55,7 +58,7 @@ public class PacMan {
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
-        label.setBounds(x, y, 50, 50);
+        label.setBounds(x, y, 30, 30);
     }
 
     public void move(KeyEvent evt) {
@@ -88,18 +91,32 @@ public class PacMan {
                 break;
         }
 
-        // Check if the next position is valid (not hitting a wall)
+     // Check if the move is valid
         if (isValidMove(nextX, nextY)) {
             x = nextX;
             y = nextY;
-            moveCount++;
+        } else {
+            System.out.println("Invalid move: Collision detected");
         }
     }
 
     private boolean isValidMove(int x, int y) {
-        // Check if the next position is within the maze bounds and not hitting a wall
-        return maze.isValidMove(x, y);
+        int cellX = (int) (x / cellSize); // Convert pixel position to grid cell
+        int cellY = (int) (y / cellSize);
+
+        // Ensure Pacman stays within the maze bounds
+        if (cellX < 0 || cellX >= maze.getMapGrid()[0].length || cellY < 0 || cellY >= maze.getMapGrid().length) {
+            return false; // Out of bounds
+        }
+
+        // Check if the cell is a wall
+        int cellValue = maze.getMapGrid()[cellY][cellX];
+        boolean isWall = cellValue == 1 || cellValue == 10 || cellValue == 11 || cellValue == 12 ||
+                         cellValue == 13 || cellValue == 14 || cellValue == 15 || cellValue == 16;
+
+        return !isWall; // If not a wall, the move is valid
     }
+
 
     public void updatePosition() {
         label.setLocation(x, y);

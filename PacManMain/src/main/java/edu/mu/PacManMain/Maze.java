@@ -8,8 +8,8 @@ public class Maze {
     }
 
     public boolean isValidMove(int x, int y) {
-        int cellX = x / 50; // Convert pixel position to grid cell
-        int cellY = y / 50;
+        int cellX = (int) (x / 38.09); // Convert pixel position to grid cell
+        int cellY = (int) (y / 38.09);
 
         // Check if Pacman is within bounds of the maze
         if (cellX >= 0 && cellX < mapGrid[0].length && cellY >= 0 && cellY < mapGrid.length) {

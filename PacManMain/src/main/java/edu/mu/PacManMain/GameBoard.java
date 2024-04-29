@@ -34,19 +34,20 @@ public class GameBoard extends JFrame {
     }
 
     public GameBoard() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 800);
         contentPanel = new JPanel();
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPanel);
         contentPanel.setLayout(new OverlayLayout(contentPanel)); // Using absolute positioning
 
+
         // Initialize Pacman
         
         showStartScreen();
         
         int[][] mapGrid = {
-        		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16},
+        		{11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16},
     		    {13, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 14},
     		    {13, 3, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 3, 14},
     		    {13, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 14},
@@ -80,7 +81,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon pelletIcon = new ImageIcon(pelletImg.getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        ImageIcon pelletIcon = new ImageIcon(pelletImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         
         BufferedImage topwallImg = null;
 		try {
@@ -89,7 +90,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon topwallIcon = new ImageIcon(topwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon topwallIcon = new ImageIcon(topwallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         
         BufferedImage toprightwallImg = null;
 		try {
@@ -98,7 +99,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon toprightwallIcon = new ImageIcon(toprightwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon toprightwallIcon = new ImageIcon(toprightwallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         BufferedImage rightsidewallImg = null;
 		try {
 			rightsidewallImg = ImageIO.read(new File("images/rightsidewall.png"));
@@ -106,7 +107,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon rightsidewallIcon = new ImageIcon(rightsidewallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon rightsidewallIcon = new ImageIcon(rightsidewallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
 
         
         BufferedImage bottomrightwallImg = null;
@@ -116,7 +117,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon bottomrightwallIcon = new ImageIcon(bottomrightwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon bottomrightwallIcon = new ImageIcon(bottomrightwallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         
         
         BufferedImage bottomwallImg = null;
@@ -126,7 +127,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon bottomwallIcon = new ImageIcon(bottomwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon bottomwallIcon = new ImageIcon(bottomwallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         
         
         BufferedImage bottomleftwallImg = null;
@@ -136,7 +137,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon bottomleftwallIcon = new ImageIcon(bottomleftwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon bottomleftwallIcon = new ImageIcon(bottomleftwallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         
         
         BufferedImage topleftwallImg = null;
@@ -146,7 +147,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon topleftwallIcon = new ImageIcon(topleftwallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon topleftwallIcon = new ImageIcon(topleftwallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         
         
         BufferedImage leftsidewallImg = null;
@@ -156,7 +157,7 @@ public class GameBoard extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        ImageIcon leftsidewallIcon = new ImageIcon(leftsidewallImg.getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+        ImageIcon leftsidewallIcon = new ImageIcon(leftsidewallImg.getScaledInstance(37, 37, Image.SCALE_SMOOTH));
         // Add colored cells to the maze panel
         for(int i = 0; i < maze.getMapGrid().length; i++) {
         	for(int j = 0; j < maze.getMapGrid()[0].length; j++) {
@@ -211,8 +212,8 @@ public class GameBoard extends JFrame {
 
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
-        pacman = new PacMan("images/pacmanrightopen.png", maze, 50);
-        pacman.setPosition(370, 250);     
+        pacman = new PacMan("images/pacmanrightopen.png", maze, 35);
+        pacman.setPosition(125, 117);     
         
        
 
