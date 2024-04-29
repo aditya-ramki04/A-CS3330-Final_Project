@@ -18,6 +18,11 @@ public class GameBoard extends JFrame {
     private JPanel contentPanel;
     private PacMan pacman;
     private Maze maze;
+    private CyanGhost cyanghost;
+    private PinkGhost pinkghost;
+    private OrangeGhost orangeghost;
+    private RedGhost redghost;
+    
     private JPanel startScreen;
     private JPanel pauseScreen;
     
@@ -60,11 +65,11 @@ public class GameBoard extends JFrame {
     		    {13, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 14},
     		    {13, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 14},
     		    {13, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 1, 2, 14},
-    		    {13, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 2, 2, 14},
+    		    {13, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 14},
     		    {13, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 14},
     		    {6, 2, 1, 2, 1, 1, 1, 2, 1, 5, 5, 5, 1, 2, 1, 1, 1, 1, 1, 2, 6},
     		    {13, 2, 1, 2, 2, 2, 1, 2, 1, 5, 5, 5, 1, 2, 2, 2, 2, 2, 2, 2, 14},
-    		    {13, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 14},
+    		    {13, 2, 1, 2, 1, 2, 2, 2, 1, 1, 5, 1, 1, 2, 1, 1, 1, 2, 1, 2, 14},
     		    {13, 2, 1, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 14},
     		    {13, 2, 1, 2, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 2, 1, 2, 14},
     		    {13, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 14},
@@ -182,7 +187,7 @@ public class GameBoard extends JFrame {
                 	cell.setBackground(Color.GREEN); //cherry image
                 	break;
                 case 5: 
-                	cell.setBackground(Color.PINK); //start area for ghost
+                	cell.setBackground(Color.BLACK); //start area for ghost
                 	break;
                 case 6:
                 	cell.setBackground(Color.GRAY);
@@ -209,7 +214,7 @@ public class GameBoard extends JFrame {
                 	cell.setIcon(leftsidewallIcon); // Pellet
                 	break;
                 default:
-                    cell.setBackground(Color.WHITE); // Empty space
+                    cell.setBackground(Color.BLACK); // Empty space
             }
             mazePanel.add(cell);
         }
@@ -218,14 +223,28 @@ public class GameBoard extends JFrame {
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
         pacman = new PacMan("images/pacmanrightopen.png", maze, 38);
-        pacman.setPosition(350, 200);     
+        pacman.setPosition(350, 200);   
         
-       
+        cyanghost = new CyanGhost(maze, 30);
+        cyanghost.setPosition(350,200);
+        
+        pinkghost = new PinkGhost(maze, 30);
+        pinkghost.setPosition(350,200);
+        
+        orangeghost = new OrangeGhost(maze, 30);
+        orangeghost.setPosition(350,200);
 
+        redghost = new RedGhost(maze, 30);
+        redghost.setPosition(350,200);
+       
+     // Add Pacman's label to the contentPane        
+        contentPanel.add(cyanghost.getLabel());
+        contentPanel.add(pinkghost.getLabel());
+        contentPanel.add(orangeghost.getLabel());
+        contentPanel.add(redghost.getLabel());
         contentPanel.add(pacman.getLabel());
-        // Add Pacman's label to the contentPane
-        //contentPanel.add(pacman.getLabel());
         
+
         contentPanel.add(mazePanel);
 
         // Add key listener to move Pacman
@@ -242,15 +261,43 @@ public class GameBoard extends JFrame {
         });
 
         // Game loop using Timer
-        Timer timer = new Timer(20, new ActionListener() {
+        Timer timer = new Timer(20, new ActionListener() 
+        {
+        	private int ghostIndex = 0;
+        	
             @Override
-            public void actionPerformed(ActionEvent e) {
-            	if(!isPaused) {
-            		// Update Pacman's position
+            public void actionPerformed(ActionEvent e) 
+            {
+            	if (!isPaused) 
+            	{
+                    // Check which ghost to move and update
+                    switch (ghostIndex) {
+                        case 0:
+                            cyanghost.move();
+                            cyanghost.updatePosition();
+                            break;
+                        case 1:
+                            pinkghost.move();
+                            pinkghost.updatePosition();
+                            break;
+                        case 2:
+                            orangeghost.move();
+                            orangeghost.updatePosition();
+                            break;
+                        case 3:
+                            redghost.move();
+                            redghost.updatePosition();
+                            break;
+                    }
+                    // Increment the ghost index to move to the next ghost in the next iteration
+                    ghostIndex = (ghostIndex + 1) % 10;
+                    
+                 // Update Pacman's position
                     pacman.updatePosition();
-            	}
+            }
             }
         });
+        timer.setInitialDelay(3000);
         timer.start();
     }
     

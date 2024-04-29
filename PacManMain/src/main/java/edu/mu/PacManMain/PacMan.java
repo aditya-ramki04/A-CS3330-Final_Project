@@ -123,7 +123,8 @@ public class PacMan {
         // Check if the cell is a wall
         int cellValue = maze.getMapGrid()[cellY][cellX];
         boolean isWall = cellValue == 1 || cellValue == 10 || cellValue == 11 || cellValue == 12 ||
-                         cellValue == 13 || cellValue == 14 || cellValue == 15 || cellValue == 16;
+                         cellValue == 13 || cellValue == 14 || cellValue == 15 || cellValue == 16 || cellValue == 5
+                         ;
 
         return !isWall; // If not a wall, the move is valid
     }
