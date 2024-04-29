@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +18,8 @@ public class GameBoard extends JFrame {
     private JPanel contentPanel;
     private PacMan pacman;
     private Maze maze;
-
     private JPanel startScreen;
+    private JPanel pauseScreen;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -232,7 +233,11 @@ public class GameBoard extends JFrame {
         contentPanel.requestFocus();
         contentPanel.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                pacman.move(evt);
+            	if(evt.getKeyCode() == KeyEvent.VK_P) {
+            		togglePause();
+            	} else {
+            		pacman.move(evt);
+            	}
             }
         });
 
@@ -240,11 +245,35 @@ public class GameBoard extends JFrame {
         Timer timer = new Timer(20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Update Pacman's position
-                pacman.updatePosition();
+            	if(!isPaused) {
+            		// Update Pacman's position
+                    pacman.updatePosition();
+            	}
             }
         });
         timer.start();
+    }
+    
+    private void createPauseScreen() {
+        pauseScreen = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(new Color(0, 0, 0, 128)); // Semi-transparent black color
+                g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel
+            }
+        };
+        pauseScreen.setOpaque(false); // Make the panel transparent
+        pauseScreen.setVisible(false); // Initially hide the pause screen
+        contentPanel.add(pauseScreen); // Add the pause screen panel to the content panel
+    }
+
+    private boolean isPaused = false;
+    
+    private void togglePause() {
+        isPaused = !isPaused;
+        pauseScreen.setVisible(isPaused);
+        pacman.toggleMovement();
         
     }
  

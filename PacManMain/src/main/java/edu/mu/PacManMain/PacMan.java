@@ -9,6 +9,7 @@ public class PacMan {
     private int x, y;
     private Maze maze;
     private static final int PACMAN_SPEED = 38;
+    private boolean allowMovement = true;
     
     private int cellSize = 38; // Rounded from 38.09 for simplicity
 
@@ -62,8 +63,15 @@ public class PacMan {
         this.y = y;
         label.setBounds(x, y, 0, 0);
     }
+    
+    public void toggleMovement() {
+        allowMovement = !allowMovement;
+    }
 
     public void move(KeyEvent evt) {
+    	if(!allowMovement) {
+    		return;
+    	}
         int keyCode = evt.getKeyCode();
         int nextX = x;
         int nextY = y;
