@@ -1,6 +1,11 @@
 package edu.mu.PacManMain;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -25,6 +30,9 @@ public class GameBoard extends JFrame {
     
     private JPanel startScreen;
     private JPanel pauseScreen;
+    private Clip bgMusic;
+    private JToggleButton audioToggleButton;
+
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -40,10 +48,6 @@ public class GameBoard extends JFrame {
     }
 
     public GameBoard() {
-    	
-    	//DO NOT TOUCH NITIN
-    	
-    	
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 819, 850);
         contentPanel = new JPanel();
@@ -51,9 +55,8 @@ public class GameBoard extends JFrame {
         setContentPane(contentPanel);
         contentPanel.setLayout(new OverlayLayout(contentPanel)); // Using absolute positioning
 
-
         // Initialize Pacman
-        
+        createPauseScreen();
         showStartScreen();
         
         int[][] mapGrid = {
@@ -306,23 +309,76 @@ public class GameBoard extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.setColor(new Color(0, 0, 0, 128)); // Semi-transparent black color
-                g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel
+                int rectWidth = 200; // Width of the rectangle
+                int rectHeight = 400; // Height of the rectangle
+                int x = (getWidth() - rectWidth) / 2; // X coordinate of the top-left corner of the rectangle
+                int y = (getHeight() - rectHeight) / 2; // Y coordinate of the top-left corner of the rectangle
+                g.setColor(new Color(0, 0, 0, 200)); // Darker semi-transparent black color
+                g.fillRect(x, y, rectWidth, rectHeight); // Draw the rectangle
             }
         };
+        pauseScreen.setLayout(null); // Use null layout to manually position components
         pauseScreen.setOpaque(false); // Make the panel transparent
         pauseScreen.setVisible(false); // Initially hide the pause screen
+
+        // Create toggle button for audio
+        audioToggleButton = new JToggleButton(isAudio ? "Audio: OFF" : "Audio: ON");
+        audioToggleButton.setBounds(350, 315, 100, 30); // Set button position and size
+        audioToggleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleAudio();
+            }
+        });
+
+        // Create resume button
+        JButton resumeButton = new JButton("Resume");
+        resumeButton.setBounds(350, 350, 100, 30); // Set button position and size
+        resumeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                togglePause();
+            }
+        });
+
+        // Add toggle button and resume button to the pause screen panel
+        pauseScreen.add(audioToggleButton);
+        pauseScreen.add(resumeButton);
+
         contentPanel.add(pauseScreen); // Add the pause screen panel to the content panel
     }
 
+
+
+
+    private boolean isAudio;
+    
+    private void toggleAudio() {
+        isAudio = !isAudio;
+        if (isAudio) {
+            // Stop background music
+            stopBackgroundMusic();
+            audioToggleButton.setText("Audio: OFF");
+        } else {
+            // Play background music
+            playBackgroundMusic();
+            audioToggleButton.setText("Audio: ON");
+        }
+    }
+    
+    
     private boolean isPaused = false;
     
     private void togglePause() {
         isPaused = !isPaused;
         pauseScreen.setVisible(isPaused);
         pacman.toggleMovement();
-        
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
+
+
  
     private void showStartScreen() {
         startScreen = new JPanel();
@@ -336,7 +392,7 @@ public class GameBoard extends JFrame {
         JButton startButton = new JButton("Start Game");
         startButton.setFont(new Font("Arial", Font.BOLD, 16));
         startButton.setBackground(Color.GREEN); // Customize background color
-        startButton.setForeground(Color.WHITE); // Customize foreground (text) color
+        startButton.setForeground(Color.BLACK); // Customize foreground (text) color
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Customize border
         startButton.setFocusPainted(false); // Remove focus border
         startButton.addActionListener(new ActionListener() {
@@ -346,6 +402,8 @@ public class GameBoard extends JFrame {
                 contentPanel.remove(startScreen);
                 contentPanel.revalidate();
                 contentPanel.repaint();
+                
+                playBackgroundMusic();
             }
         });
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -353,5 +411,35 @@ public class GameBoard extends JFrame {
 
         contentPanel.add(startScreen);
     }
+    
+    private void playBackgroundMusic() {
+        try {
+            // Load audio file
+            File audioFile = new File("./Audio/pacman_beginning.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+            // Create clip and open audio stream
+            bgMusic = AudioSystem.getClip();
+            bgMusic.open(audioStream);
+
+            // Loop the background music continuously
+            bgMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopBackgroundMusic() {
+        if (bgMusic != null && bgMusic.isRunning()) {
+            bgMusic.stop(); // Stop playing the music
+            bgMusic.close(); // Close the clip to release system resources
+        }
+    }
+
+
 }
 
