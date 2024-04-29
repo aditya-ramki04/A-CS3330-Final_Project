@@ -31,22 +31,24 @@ public class PacMan {
     private ImageIcon leftClosedIcon;
     private ImageIcon upClosedIcon;
     private ImageIcon downClosedIcon;
+    
 
     private int currentDirection;
     private int moveCount;
+    private int pacmanSize = 30;
 
     public PacMan(String imagePath, Maze maze, int cellSize) {
         this.maze = maze;
-        this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+        this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH)));
         
-        this.rightOpenIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_OPEN).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.leftOpenIcon = new ImageIcon(new ImageIcon(PACMAN_LEFT_IMAGE_OPEN).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.upOpenIcon = new ImageIcon(new ImageIcon(PACMAN_UP_IMAGE_OPEN).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.downOpenIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_OPEN).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.rightClosedIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_CLOSED).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.leftClosedIcon = new ImageIcon(new ImageIcon(PACMAN_LEFT_IMAGE_CLOSED).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.upClosedIcon = new ImageIcon(new ImageIcon(PACMAN_UP_IMAGE_CLOSED).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
-        this.downClosedIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_CLOSED).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH));
+        this.rightOpenIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.leftOpenIcon = new ImageIcon(new ImageIcon(PACMAN_LEFT_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.upOpenIcon = new ImageIcon(new ImageIcon(PACMAN_UP_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.downOpenIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.rightClosedIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.leftClosedIcon = new ImageIcon(new ImageIcon(PACMAN_LEFT_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.upClosedIcon = new ImageIcon(new ImageIcon(PACMAN_UP_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
+        this.downClosedIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
         
         this.currentDirection = KeyEvent.VK_RIGHT; 
     }
@@ -58,7 +60,7 @@ public class PacMan {
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
-        label.setBounds(x, y, 30, 30);
+        label.setBounds(x, y, 0, 0);
     }
 
     public void move(KeyEvent evt) {
@@ -95,6 +97,7 @@ public class PacMan {
         if (isValidMove(nextX, nextY)) {
             x = nextX;
             y = nextY;
+            moveCount++;
         } else {
             System.out.println("Invalid move: Collision detected");
         }
