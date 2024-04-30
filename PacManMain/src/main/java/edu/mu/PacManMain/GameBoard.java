@@ -230,19 +230,19 @@ public class GameBoard extends JFrame {
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
         pacman = new PacMan("images/pacmanrightopen.png", maze, 38);
-        pacman.setPosition(350, 200);   
+        pacman.setPosition(400, 200);   
         
         cyanghost = new CyanGhost(maze, 30);
-        cyanghost.setPosition(350,200);
+        cyanghost.setPosition(52,40);
         
         pinkghost = new PinkGhost(maze, 30);
-        pinkghost.setPosition(350,200);
+        pinkghost.setPosition(725,45);
         
         orangeghost = new OrangeGhost(maze, 30);
-        orangeghost.setPosition(350,200);
+        orangeghost.setPosition(52,739);
 
         redghost = new RedGhost(maze, 30);
-        redghost.setPosition(350,200);
+        redghost.setPosition(725,725);
        
      // Add Pacman's label to the contentPane        
         contentPanel.add(cyanghost.getLabel());
@@ -272,11 +272,13 @@ public class GameBoard extends JFrame {
         {
         	private int ghostIndex = 0;
         	
+  
             @Override
             public void actionPerformed(ActionEvent e) 
             {
             	if (!isPaused) 
             	{
+
                     // Check which ghost to move and update
                     switch (ghostIndex) {
                         case 0:
@@ -289,7 +291,7 @@ public class GameBoard extends JFrame {
                             break;
                         case 2:
                             orangeghost.move();
-                            orangeghost.updatePosition();
+                           orangeghost.updatePosition();
                             break;
                         case 3:
                             redghost.move();
@@ -297,7 +299,7 @@ public class GameBoard extends JFrame {
                             break;
                     }
                     // Increment the ghost index to move to the next ghost in the next iteration
-                    ghostIndex = (ghostIndex + 1) % 10;
+                    ghostIndex = (ghostIndex + 1) % 100000000;
                     
                  // Update Pacman's position
                     pacman.updatePosition();
