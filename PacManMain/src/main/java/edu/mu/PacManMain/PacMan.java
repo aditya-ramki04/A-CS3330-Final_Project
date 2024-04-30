@@ -10,10 +10,10 @@ public class PacMan {
     private Maze maze;
     private static final int PACMAN_SPEED = 38;
     private boolean allowMovement = true;
+    private int score;
     
     private int cellSize = 38; // Rounded from 38.09 for simplicity
 
-    
     private static final String PACMAN_RIGHT_IMAGE_OPEN = "images/pacmanrightopen.png";
     private static final String PACMAN_LEFT_IMAGE_OPEN = "images/pacmanleftopen.png";
     private static final String PACMAN_UP_IMAGE_OPEN = "images/pacmantopopen.png";
@@ -52,6 +52,7 @@ public class PacMan {
         this.downClosedIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
         
         this.currentDirection = KeyEvent.VK_RIGHT; 
+
     }
 
     public JLabel getLabel() {
@@ -69,9 +70,10 @@ public class PacMan {
     }
 
     public void move(KeyEvent evt) {
-    	if(!allowMovement) {
-    		return;
-    	}
+        if(!allowMovement) {
+            return;
+        }
+        System.out.println("Moving Pacman...");
         int keyCode = evt.getKeyCode();
         int nextX = x;
         int nextY = y;
@@ -101,11 +103,16 @@ public class PacMan {
                 break;
         }
 
-     // Check if the move is valid
+        // Check if the move is valid
         if (isValidMove(nextX, nextY)) {
             x = nextX;
             y = nextY;
             moveCount++;
+            
+            // Check if Pacman's new position overlaps with a pellet
+            int cellX = (int) (x / cellSize);
+            int cellY = (int) (y / cellSize);
+            eatPellet(cellY, cellX); // Cell indices are swapped due to row-column convention
         } else {
             System.out.println("Invalid move: Collision detected");
         }
@@ -128,10 +135,50 @@ public class PacMan {
 
         return !isWall; // If not a wall, the move is valid
     }
+    
+    
+    
+    public void eatPellet(int row, int col) {
+        System.out.println("Checking pellet at row: " + row + ", col: " + col);
+        if (maze.getMapGrid()[row][col] == 2) { // Check if Pacman's position corresponds to a pellet
+            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
+            System.out.println("Pellet eaten at row: " + row + ", col: " + col);
+            score+= 100;
+            // You can also increment a score counter or perform any other necessary actions here
+        } else {
+            System.out.println("No pellet found at row: " + row + ", col: " + col);
+        }
+        System.out.println("Your score " + score);
+    }
+//    public void eatPellet(int row, int col) {
+//        System.out.println("Checking pellet at row: " + row + ", col: " + col);
+//        if (maze.getMapGrid()[row][col] == 2) { // Check if Pacman's position corresponds to a pellet
+//            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
+//            System.out.println("Pellet eaten at row: " + row + ", col: " + col);
+//            
+//            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
+//            JPanel mazePanel = gameboard.getMazePanel(); // Assuming you have a method to get the maze panel
+//            Component[] components = mazePanel.getComponents();
+//            int cellIndex = row * maze.getMapGrid()[0].length + col;
+//            if (cellIndex >= 0 && cellIndex < components.length) {
+//                JLabel cellLabel = (JLabel) components[cellIndex];
+//                cellLabel.setBackground(Color.BLACK);
+//                cellLabel.setIcon(null); // Clear any existing icon
+//            } else {
+//                System.out.println("Invalid cell index: " + cellIndex);
+//            }
+//            
+//            // You can also increment a score counter or perform any other necessary actions here
+//        } else {
+//            System.out.println("No pellet found at row: " + row + ", col: " + col);
+//        }
+//}
 
-
+    
+    
+    
     public void updatePosition() {
         label.setLocation(x, y);
     }
+   
 }
-

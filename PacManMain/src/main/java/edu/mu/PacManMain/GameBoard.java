@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -20,6 +21,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameBoard extends JFrame {
 
@@ -31,6 +33,8 @@ public class GameBoard extends JFrame {
     private PinkGhost pinkghost;
     private OrangeGhost orangeghost;
     private RedGhost redghost;
+ 
+    private ArrayList<Pellet> pellets = new ArrayList<>();
     
     private JPanel startScreen;
     private JPanel pauseScreen;
@@ -272,7 +276,6 @@ public class GameBoard extends JFrame {
         {
         	private int ghostIndex = 0;
         	
-  
             @Override
             public void actionPerformed(ActionEvent e) 
             {
@@ -465,6 +468,7 @@ public class GameBoard extends JFrame {
             bgMusic.close(); // Close the clip to release system resources
         }
     }
+    
 
 
 }
