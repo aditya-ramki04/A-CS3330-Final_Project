@@ -4,10 +4,14 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicSliderUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -333,23 +337,43 @@ public class GameBoard extends JFrame {
 
         // Create resume button
         JButton resumeButton = new JButton("Resume");
-        resumeButton.setBounds(350, 350, 100, 30); // Set button position and size
+        resumeButton.setBounds(350, 400, 100, 30); // Set button position and size
         resumeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 togglePause();
             }
         });
+        
+        JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // Volume range from 0 to 100, starting at 50
+        volumeSlider.setBounds(325, 355, 150, 30); // Set slider position and size
+        volumeSlider.setBackground(Color.WHITE);
+        volumeSlider.setBackground(Color.BLACK);
+        
+        volumeSlider.setUI(new BasicSliderUI(volumeSlider));
+        
+        volumeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                adjustBackgroundMusicVolume(volumeSlider.getValue());
+            }
+        });
 
         // Add toggle button and resume button to the pause screen panel
         pauseScreen.add(audioToggleButton);
         pauseScreen.add(resumeButton);
+        pauseScreen.add(volumeSlider);
 
         contentPanel.add(pauseScreen); // Add the pause screen panel to the content panel
     }
-
-
-
+    
+    private void adjustBackgroundMusicVolume(int volume) {
+        if (bgMusic != null && bgMusic.isOpen()) {
+            FloatControl gainControl = (FloatControl) bgMusic.getControl(FloatControl.Type.MASTER_GAIN);
+            float dB = (float) (Math.log(volume / 100.0) / Math.log(10.0) * 20.0);
+            gainControl.setValue(dB);
+        }
+    }
 
     private boolean isAudio;
     
@@ -403,7 +427,7 @@ public class GameBoard extends JFrame {
                 contentPanel.revalidate();
                 contentPanel.repaint();
                 
-                playBackgroundMusic();
+                //playBackgroundMusic();
             }
         });
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
