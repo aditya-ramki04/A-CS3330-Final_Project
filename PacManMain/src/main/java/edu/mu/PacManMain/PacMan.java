@@ -32,14 +32,16 @@ public class PacMan {
     private ImageIcon leftClosedIcon;
     private ImageIcon upClosedIcon;
     private ImageIcon downClosedIcon;
+    private JPanel mazePanel;
     
 
     private int currentDirection;
     private int moveCount;
     private int pacmanSize = 30;
 
-    public PacMan(String imagePath, Maze maze, int cellSize) {
+    public PacMan(String imagePath, Maze maze, JPanel mazePanel, int cellSize) {
         this.maze = maze;
+        this.mazePanel = mazePanel;
         this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH)));
         
         this.rightOpenIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
@@ -52,11 +54,18 @@ public class PacMan {
         this.downClosedIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
         
         this.currentDirection = KeyEvent.VK_RIGHT; 
-
     }
 
     public JLabel getLabel() {
         return label;
+    }
+    
+    public int getCellX() {
+        return (int) (x / cellSize);
+    }
+
+    public int getCellY() {
+        return (int) (y / cellSize);
     }
 
     public void setPosition(int x, int y) {
@@ -136,46 +145,30 @@ public class PacMan {
         return !isWall; // If not a wall, the move is valid
     }
     
-    
-    
     public void eatPellet(int row, int col) {
         System.out.println("Checking pellet at row: " + row + ", col: " + col);
         if (maze.getMapGrid()[row][col] == 2) { // Check if Pacman's position corresponds to a pellet
             maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
             System.out.println("Pellet eaten at row: " + row + ", col: " + col);
             score+= 100;
+            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
+            Component[] components = mazePanel.getComponents();
+            int cellIndex = row * maze.getMapGrid()[0].length + col;
+            if (cellIndex >= 0 && cellIndex < components.length) {
+                JLabel cellLabel = (JLabel) components[cellIndex];
+                cellLabel.setBackground(Color.BLACK);
+                cellLabel.setIcon(null); // Clear any existing icon
+            } else {
+                System.out.println("Invalid cell index: " + cellIndex);
+            }
+            System.out.println("Your current score " + score);
+
             // You can also increment a score counter or perform any other necessary actions here
         } else {
             System.out.println("No pellet found at row: " + row + ", col: " + col);
         }
-        System.out.println("Your score " + score);
     }
-//    public void eatPellet(int row, int col) {
-//        System.out.println("Checking pellet at row: " + row + ", col: " + col);
-//        if (maze.getMapGrid()[row][col] == 2) { // Check if Pacman's position corresponds to a pellet
-//            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
-//            System.out.println("Pellet eaten at row: " + row + ", col: " + col);
-//            
-//            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
-//            JPanel mazePanel = gameboard.getMazePanel(); // Assuming you have a method to get the maze panel
-//            Component[] components = mazePanel.getComponents();
-//            int cellIndex = row * maze.getMapGrid()[0].length + col;
-//            if (cellIndex >= 0 && cellIndex < components.length) {
-//                JLabel cellLabel = (JLabel) components[cellIndex];
-//                cellLabel.setBackground(Color.BLACK);
-//                cellLabel.setIcon(null); // Clear any existing icon
-//            } else {
-//                System.out.println("Invalid cell index: " + cellIndex);
-//            }
-//            
-//            // You can also increment a score counter or perform any other necessary actions here
-//        } else {
-//            System.out.println("No pellet found at row: " + row + ", col: " + col);
-//        }
-//}
-
-    
-    
+  
     
     public void updatePosition() {
         label.setLocation(x, y);

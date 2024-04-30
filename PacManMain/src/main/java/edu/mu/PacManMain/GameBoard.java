@@ -33,6 +33,7 @@ public class GameBoard extends JFrame {
     private PinkGhost pinkghost;
     private OrangeGhost orangeghost;
     private RedGhost redghost;
+    private int cellSize;
  
     private ArrayList<Pellet> pellets = new ArrayList<>();
     
@@ -233,8 +234,9 @@ public class GameBoard extends JFrame {
 
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
-        pacman = new PacMan("images/pacmanrightopen.png", maze, 38);
-        pacman.setPosition(400, 200);   
+        pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
+
+        pacman.setPosition(387, 200);   
         
         cyanghost = new CyanGhost(maze, 30);
         cyanghost.setPosition(52,40);
@@ -306,6 +308,8 @@ public class GameBoard extends JFrame {
                     
                  // Update Pacman's position
                     pacman.updatePosition();
+                 // Inside the actionPerformed method of your GameBoard class
+
             }
             }
         });
