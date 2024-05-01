@@ -34,6 +34,7 @@ public class GameBoard extends JFrame {
     private OrangeGhost orangeghost;
     private RedGhost redghost;
     private int cellSize;
+    private Timer timer;
  
     private ArrayList<Pellet> pellets = new ArrayList<>();
     
@@ -286,7 +287,7 @@ public class GameBoard extends JFrame {
         });
 
      // Timer-based game loop with collision detection
-        Timer timer = new Timer(20, new ActionListener() {
+         timer = new Timer(20, new ActionListener() {
             private int ghostIndex = 0;
 
             @Override
@@ -328,18 +329,37 @@ public class GameBoard extends JFrame {
             }
         });
 
-
+        
+        
         timer.setInitialDelay(3000); // Adjust the delay as needed
         timer.start(); // Start the game loop
         
         startTimer();
+        
+     
+
     }
     
     
     public void handlePacmanGhostCollision() {
-        System.out.println("Pacman collided with a ghost!");
-        // Implement collision handling logic, like losing a life, resetting Pacman's position, or ending the game
+        System.out.println("Pacman collided with a ghost! Game over.");
+        
+        if (timer != null) {
+            timer.stop(); // Stop the game timer
+        }
+
+        // Remove all components from the content panel
+        contentPanel.removeAll(); // Clear the current content
+
+        // Create and add the "Game Over" screen
+        JPanel gameOverScreen = createGameOverScreen(); // Create the "Game Over" panel
+        contentPanel.add(gameOverScreen); // Add it to the content panel
+        
+        // Revalidate and repaint to update the GUI
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
+
     
     public boolean checkPacmanGhostCollision(PacMan pacman, Ghost[] ghosts, int safetyMargin) 
     {
@@ -376,7 +396,16 @@ public class GameBoard extends JFrame {
                 timerLabel.setText(formatTime(remainingSeconds)); // Update timer label text
 
                 if (remainingSeconds <= 0) {
-                    // Timer has reached 0, handle game over or other logic here
+                	// Remove all components from the content panel
+                    contentPanel.removeAll(); // Clear the current content
+
+                    // Create and add the "Game Over" screen
+                    JPanel gameOverScreen = createGameOverScreen(); // Create the "Game Over" panel
+                    contentPanel.add(gameOverScreen); // Add it to the content panel
+                    
+                    // Revalidate and repaint to update the GUI
+                    contentPanel.revalidate();
+                    contentPanel.repaint();
                     ((Timer) e.getSource()).stop(); // Stop the timer
                 }
             }
@@ -548,6 +577,31 @@ public class GameBoard extends JFrame {
         }
     }
     
+    public JPanel createGameOverScreen() {
+        JPanel gameOverScreen = new JPanel();
+        gameOverScreen.setLayout(new BorderLayout()); // Using BorderLayout for simple layout management
+
+        JLabel gameOverLabel = new JLabel("Game Over");
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48)); // Large bold font for emphasis
+        gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+        gameOverScreen.add(gameOverLabel, BorderLayout.CENTER); // Add the label to the center
+
+        JPanel buttonPanel = new JPanel(); // Panel for buttons
+        buttonPanel.setLayout(new FlowLayout()); // Simple flow layout
+
+        JButton restartButton = new JButton("Restart");
+    
+        buttonPanel.add(restartButton); // Add the restart button to the panel
+
+        JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(e -> System.exit(0)); // Exit the game
+        buttonPanel.add(quitButton); // Add the quit button to the panel
+
+        gameOverScreen.add(buttonPanel, BorderLayout.SOUTH); // Add button panel to the bottom
+
+        return gameOverScreen; // Return the complete "Game Over" panel
+    }
+
 
 
 }
