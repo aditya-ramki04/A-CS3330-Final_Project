@@ -45,6 +45,7 @@ public class GameBoard extends JFrame {
     
     private JLabel timerLabel;
     private int remainingSeconds = 93;
+    private int maxScore = 1000;
 
     
     public static void main(String[] args) {
@@ -72,6 +73,8 @@ public class GameBoard extends JFrame {
         // Initialize Pacman
         createPauseScreen();
         showStartScreen();
+        int pelletCount= 0;
+       
         
         int[][] mapGrid = {
         		{11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16},
@@ -193,6 +196,25 @@ public class GameBoard extends JFrame {
 			e1.printStackTrace();
 		}
         ImageIcon leftsidewallIcon = new ImageIcon(leftsidewallImg.getScaledInstance(37, 39, Image.SCALE_SMOOTH));
+        
+        BufferedImage strawBerryImg = null;
+		try {
+			strawBerryImg = ImageIO.read(new File("images/strawberry.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon strawBerryIcon = new ImageIcon(strawBerryImg.getScaledInstance(37, 39, Image.SCALE_SMOOTH));
+        
+        BufferedImage cherryImg = null;
+		try {
+			cherryImg = ImageIO.read(new File("images/cherry.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon cherryIcon = new ImageIcon(cherryImg.getScaledInstance(37, 39, Image.SCALE_SMOOTH));
+        
         // Add colored cells to the maze panel
         for(int i = 0; i < maze.getMapGrid().length; i++) {
         	for(int j = 0; j < maze.getMapGrid()[0].length; j++) {
@@ -204,18 +226,16 @@ public class GameBoard extends JFrame {
                     break;
                 case 2:
                 	cell.setIcon(pelletIcon); // Pellet
-                    break;
-                case 3:
-                    cell.setBackground(Color.RED); // Power-up
+                	pelletCount++;
                     break;
                 case 4:
-                	cell.setBackground(Color.GREEN); //cherry image
+                    cell.setIcon(cherryIcon); // Power-up
+                    break;
+                case 3:
+                	cell.setIcon(strawBerryIcon); //cherry image
                 	break;
                 case 5: 
                 	cell.setBackground(Color.BLACK); //start area for ghost
-                	break;
-                case 6:
-                	cell.setBackground(Color.GRAY);
                 	break;
                 case 16:
                 	cell.setIcon(toprightwallIcon); // Pellet
@@ -238,12 +258,14 @@ public class GameBoard extends JFrame {
                 case 13:
                 	cell.setIcon(leftsidewallIcon); // Pellet
                 	break;
+
                 default:
                     cell.setBackground(Color.BLACK); // Empty space
             }
             mazePanel.add(cell);
         }
         }
+        System.out.println("pellet count "+ pelletCount);
 
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
@@ -315,7 +337,7 @@ public class GameBoard extends JFrame {
                         }
 
                         // Increment the ghost index
-                        ghostIndex = (ghostIndex + 1) % 7;
+                        ghostIndex = (ghostIndex + 1) % 70000;
 
                         // Update Pacman's position
                         pacman.updatePosition();
@@ -323,6 +345,25 @@ public class GameBoard extends JFrame {
                         // Check for Pacman-ghost collisions
                         if (checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
                             handlePacmanGhostCollision(); // Handle the collision response
+                        }
+                        if(maxScore == pacman.getScore())
+                        {
+                        	System.out.println("You win!!");
+                        	 if (timer != null) {
+                                 timer.stop(); // Stop the game timer
+                             }
+
+                             // Remove all components from the content panel
+                             contentPanel.removeAll(); // Clear the current content
+
+                             // Create and add the "Game Over" screen
+                             JPanel gameOverScreen = createGameOverScreen(); // Create the "Game Over" panel
+                             contentPanel.add(gameOverScreen); // Add it to the content panel
+                             
+                             // Revalidate and repaint to update the GUI
+                             contentPanel.revalidate();
+                             contentPanel.repaint();
+                        	
                         }
                     });
                 }

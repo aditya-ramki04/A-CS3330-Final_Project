@@ -26,7 +26,6 @@ public class PacMan {
     private static final String PACMAN_UP_IMAGE_CLOSED = "images/pacmantopclosed.png";
     private static final String PACMAN_DOWN_IMAGE_CLOSED = "images/pacmanbottomclosed.png";
     
-
     private ImageIcon rightOpenIcon;
     private ImageIcon leftOpenIcon;
     private ImageIcon upOpenIcon;
@@ -174,6 +173,9 @@ public class PacMan {
 	 
     public void updatePosition() {
         label.setLocation(x, y);
+    }
+    public int getScore() {
+    	return score;
     }
    
 }
