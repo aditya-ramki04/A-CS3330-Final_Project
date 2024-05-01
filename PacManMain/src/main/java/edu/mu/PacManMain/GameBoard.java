@@ -45,7 +45,7 @@ public class GameBoard extends JFrame {
     
     private JLabel timerLabel;
     private int remainingSeconds = 93;
-    private int maxScore = 1000;
+    private int maxScore = 10000;
 
     
     public static void main(String[] args) {
@@ -337,7 +337,7 @@ public class GameBoard extends JFrame {
                         }
 
                         // Increment the ghost index
-                        ghostIndex = (ghostIndex + 1) % 70000;
+                        ghostIndex = (ghostIndex + 1) % 7;
 
                         // Update Pacman's position
                         pacman.updatePosition();
@@ -357,7 +357,7 @@ public class GameBoard extends JFrame {
                              contentPanel.removeAll(); // Clear the current content
 
                              // Create and add the "Game Over" screen
-                             JPanel gameOverScreen = createGameOverScreen(); // Create the "Game Over" panel
+                             JPanel gameOverScreen = createGameOverWinScreen(); // Create the "Game Over" panel
                              contentPanel.add(gameOverScreen); // Add it to the content panel
                              
                              // Revalidate and repaint to update the GUI
@@ -626,6 +626,31 @@ public class GameBoard extends JFrame {
         gameOverScreen.setLayout(new BorderLayout()); // Using BorderLayout for simple layout management
 
         JLabel gameOverLabel = new JLabel("Game Over");
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48)); // Large bold font for emphasis
+        gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+        gameOverScreen.add(gameOverLabel, BorderLayout.CENTER); // Add the label to the center
+
+        JPanel buttonPanel = new JPanel(); // Panel for buttons
+        buttonPanel.setLayout(new FlowLayout()); // Simple flow layout
+
+        JButton restartButton = new JButton("Restart");
+    
+        buttonPanel.add(restartButton); // Add the restart button to the panel
+
+        JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(e -> System.exit(0)); // Exit the game
+        buttonPanel.add(quitButton); // Add the quit button to the panel
+
+        gameOverScreen.add(buttonPanel, BorderLayout.SOUTH); // Add button panel to the bottom
+
+        return gameOverScreen; // Return the complete "Game Over" panel
+    }
+    
+    public JPanel createGameOverWinScreen() {
+        JPanel gameOverScreen = new JPanel();
+        gameOverScreen.setLayout(new BorderLayout()); // Using BorderLayout for simple layout management
+
+        JLabel gameOverLabel = new JLabel("Congrats, you won!");
         gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48)); // Large bold font for emphasis
         gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
         gameOverScreen.add(gameOverLabel, BorderLayout.CENTER); // Add the label to the center
