@@ -11,6 +11,7 @@ public class PacMan {
     private static final int PACMAN_SPEED = 38;
     private boolean allowMovement = true;
     private int score;
+    private PowerUp powerUp;
     
     private int cellSize = 38; // Rounded from 38.09 for simplicity
 
@@ -42,6 +43,8 @@ public class PacMan {
     public PacMan(String imagePath, Maze maze, JPanel mazePanel, int cellSize) {
         this.maze = maze;
         this.mazePanel = mazePanel;
+        this.powerUp = new PowerUp(maze, mazePanel, this);
+        
         this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH)));
         
         this.rightOpenIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
@@ -138,7 +141,7 @@ public class PacMan {
 
             eatCherryBonus(cellY, cellX);
 
-            eatPowerUp(cellY, cellX);
+            powerUp.eatPowerUp(cellY, cellX);
 
         } else {
             System.out.println("Invalid move: Collision detected");
@@ -200,22 +203,6 @@ public class PacMan {
             // You can also increment a score counter or perform any other necessary actions here
         } 
     }
-  
-
-	 public void eatPowerUp(int row, int col) {
-	        if (maze.getMapGrid()[row][col] == 3) { // Check if Pacman's position corresponds to a pellet
-	            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
-	            incrementScore(500);
-	            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
-	            Component[] components = mazePanel.getComponents();
-	            int cellIndex = row * maze.getMapGrid()[0].length + col;
-	            if (cellIndex >= 0 && cellIndex < components.length) {
-	                JLabel cellLabel = (JLabel) components[cellIndex];
-	                cellLabel.setBackground(Color.BLACK);
-	                cellLabel.setIcon(null); // Clear any existing icon
-	            }
-	        }
-	    }
     
 	 public void incrementScore(int points) {
 		    score += points;

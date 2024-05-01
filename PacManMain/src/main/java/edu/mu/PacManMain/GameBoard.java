@@ -342,6 +342,7 @@ public class GameBoard extends JFrame {
     
     
     public void handlePacmanGhostCollision() {
+<<<<<<< Updated upstream
         System.out.println("Pacman collided with a ghost! Game over.");
         
         if (timer != null) {
@@ -358,6 +359,10 @@ public class GameBoard extends JFrame {
         // Revalidate and repaint to update the GUI
         contentPanel.revalidate();
         contentPanel.repaint();
+=======
+        //System.out.println("Pacman collided with a ghost!");
+        // Implement collision handling logic, like losing a life, resetting Pacman's position, or ending the game
+>>>>>>> Stashed changes
     }
 
     
