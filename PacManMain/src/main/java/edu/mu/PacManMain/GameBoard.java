@@ -41,6 +41,9 @@ public class GameBoard extends JFrame {
     private JPanel pauseScreen;
     private Clip bgMusic;
     private JToggleButton audioToggleButton;
+    
+    private JLabel timerLabel;
+    private int remainingSeconds = 93;
 
     
     public static void main(String[] args) {
@@ -56,6 +59,7 @@ public class GameBoard extends JFrame {
         });
     }
 
+    
     public GameBoard() {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 819, 850);
@@ -94,7 +98,15 @@ public class GameBoard extends JFrame {
         maze = new Maze(mapGrid);
         JPanel mazePanel = new JPanel();
         mazePanel.setLayout(new GridLayout(maze.getMapGrid().length, maze.getMapGrid()[0].length));
-
+        
+        // Add timer label to the contentPanel
+        timerLabel = new JLabel(formatTime(remainingSeconds), SwingConstants.TRAILING);
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        timerLabel.setForeground(Color.WHITE);
+        contentPanel.add(timerLabel, BorderLayout.EAST);
+        timerLabel.setBounds(0, 315, 100, 30);
+        timerLabel.setHorizontalAlignment(SwingConstants.TRAILING); 
+        
         
         BufferedImage pelletImg = null;
 		try {
@@ -316,9 +328,11 @@ public class GameBoard extends JFrame {
             }
         });
 
+
         timer.setInitialDelay(3000); // Adjust the delay as needed
         timer.start(); // Start the game loop
-
+        
+        startTimer();
     }
     
     
@@ -327,7 +341,8 @@ public class GameBoard extends JFrame {
         // Implement collision handling logic, like losing a life, resetting Pacman's position, or ending the game
     }
     
-    public boolean checkPacmanGhostCollision(PacMan pacman, Ghost[] ghosts, int safetyMargin) {
+    public boolean checkPacmanGhostCollision(PacMan pacman, Ghost[] ghosts, int safetyMargin) 
+    {
         // Define Pacman's bounds with a safety margin
         int pacmanX = pacman.getX() - safetyMargin;
         int pacmanY = pacman.getY() - safetyMargin;
@@ -335,20 +350,48 @@ public class GameBoard extends JFrame {
         Rectangle pacmanBounds = new Rectangle(pacmanX, pacmanY, pacmanSize, pacmanSize);
 
         // Loop through each ghost and check for collisions
-        for (Ghost ghost : ghosts) {
+        for (Ghost ghost : ghosts) 
+        {
             int ghostX = ghost.getX() - safetyMargin;
             int ghostY = ghost.getY() - safetyMargin;
             int ghostSize = ghost.getGhostSize() + (2 * safetyMargin); // Adjust for the margin
             Rectangle ghostBounds = new Rectangle(ghostX, ghostY, ghostSize, ghostSize);
 
             // Check if Pacman's bounds intersect with the ghost's bounds
-            if (pacmanBounds.intersects(ghostBounds)) {
+            if (pacmanBounds.intersects(ghostBounds)) 
+            {
                 return true; // Collision detected
             }
         }
 
-        return false; // No collision
+        	return false; // No collision
+    	
     }
+    
+    private void startTimer() {
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                remainingSeconds--; // Decrement remaining time
+                timerLabel.setText(formatTime(remainingSeconds)); // Update timer label text
+
+                if (remainingSeconds <= 0) {
+                    // Timer has reached 0, handle game over or other logic here
+                    ((Timer) e.getSource()).stop(); // Stop the timer
+                }
+            }
+        });
+        timer.start();
+    }
+
+    private String formatTime(int seconds) {
+        int minutes = seconds / 60;
+        int secs = seconds % 60;
+        return String.format("%2d:%02d", minutes, secs);
+    }
+
+    
+
     private void createPauseScreen() {
         pauseScreen = new JPanel() {
             @Override

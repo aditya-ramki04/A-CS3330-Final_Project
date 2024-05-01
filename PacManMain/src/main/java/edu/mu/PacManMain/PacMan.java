@@ -169,7 +169,7 @@ public class PacMan {
         if (maze.getMapGrid()[row][col] == 2) { // Check if Pacman's position corresponds to a pellet
             maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
             System.out.println("Pellet eaten at row: " + row + ", col: " + col);
-            score+= 100;
+            incrementScore(100);
             // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
             Component[] components = mazePanel.getComponents();
             int cellIndex = row * maze.getMapGrid()[0].length + col;
@@ -194,7 +194,7 @@ public class PacMan {
         if (maze.getMapGrid()[row][col] == 4) { // Check if Pacman's position corresponds to a pellet
             maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
             System.out.println("Cherry Bonus eaten at row: " + row + ", col: " + col);
-            score+= 1000;
+            incrementScore(1000);
             // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
             Component[] components = mazePanel.getComponents();
             int cellIndex = row * maze.getMapGrid()[0].length + col;
@@ -219,7 +219,7 @@ public class PacMan {
 	        if (maze.getMapGrid()[row][col] == 3) { // Check if Pacman's position corresponds to a pellet
 	            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
 	            System.out.println("Pellet eaten at row: " + row + ", col: " + col);
-	            score+= 500;
+	            incrementScore(500);
 	            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
 	            Component[] components = mazePanel.getComponents();
 	            int cellIndex = row * maze.getMapGrid()[0].length + col;
@@ -237,8 +237,12 @@ public class PacMan {
 	            System.out.println("No pellet found at row: " + row + ", col: " + col);
 	        }
 	    }
-
     
+	 public void incrementScore(int points) {
+		    score += points;
+		    System.out.println("Your current score: " + score);
+		}
+	 
     public void updatePosition() {
         label.setLocation(x, y);
     }
