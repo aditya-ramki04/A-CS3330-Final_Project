@@ -96,7 +96,6 @@ public class PacMan {
         if(!allowMovement) {
             return;
         }
-        System.out.println("Moving Pacman...");
         int keyCode = evt.getKeyCode();
         int nextX = x;
         int nextY = y;
@@ -165,10 +164,9 @@ public class PacMan {
     }
     
     public void eatPellet(int row, int col) {
-        System.out.println("Checking pellet at row: " + row + ", col: " + col);
-        if (maze.getMapGrid()[row][col] == 2) { // Check if Pacman's position corresponds to a pellet
+        if (maze.getMapGrid()[row][col] == 2) 
+        { // Check if Pacman's position corresponds to a pellet
             maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
-            System.out.println("Pellet eaten at row: " + row + ", col: " + col);
             incrementScore(100);
             // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
             Component[] components = mazePanel.getComponents();
@@ -177,20 +175,15 @@ public class PacMan {
                 JLabel cellLabel = (JLabel) components[cellIndex];
                 cellLabel.setBackground(Color.BLACK);
                 cellLabel.setIcon(null); // Clear any existing icon
-            } else {
-                System.out.println("Invalid cell index: " + cellIndex);
             }
-            System.out.println("Your current score " + score);
 
             // You can also increment a score counter or perform any other necessary actions here
-        } else {
-            System.out.println("No pellet found at row: " + row + ", col: " + col);
         }
     }
     
 
     public void eatCherryBonus(int row, int col) {
-        System.out.println("Checking if cherry bonus at row: " + row + ", col: " + col);
+        
         if (maze.getMapGrid()[row][col] == 4) { // Check if Pacman's position corresponds to a pellet
             maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
             System.out.println("Cherry Bonus eaten at row: " + row + ", col: " + col);
@@ -202,23 +195,16 @@ public class PacMan {
                 JLabel cellLabel = (JLabel) components[cellIndex];
                 cellLabel.setBackground(Color.BLACK);
                 cellLabel.setIcon(null); // Clear any existing icon
-            } else {
-                System.out.println("Invalid cell index: " + cellIndex);
             }
-            System.out.println("Your current score " + score);
 
             // You can also increment a score counter or perform any other necessary actions here
-        } else {
-            System.out.println("No cherry bonus found at row: " + row + ", col: " + col);
-        }
+        } 
     }
   
 
 	 public void eatPowerUp(int row, int col) {
-	        System.out.println("Checking pellet at row: " + row + ", col: " + col);
 	        if (maze.getMapGrid()[row][col] == 3) { // Check if Pacman's position corresponds to a pellet
 	            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
-	            System.out.println("Pellet eaten at row: " + row + ", col: " + col);
 	            incrementScore(500);
 	            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
 	            Component[] components = mazePanel.getComponents();
@@ -227,14 +213,7 @@ public class PacMan {
 	                JLabel cellLabel = (JLabel) components[cellIndex];
 	                cellLabel.setBackground(Color.BLACK);
 	                cellLabel.setIcon(null); // Clear any existing icon
-	            } else {
-	                System.out.println("Invalid cell index: " + cellIndex);
 	            }
-	            System.out.println("Your current score " + score);
-
-	            // You can also increment a score counter or perform any other necessary actions here
-	        } else {
-	            System.out.println("No pellet found at row: " + row + ", col: " + col);
 	        }
 	    }
     
