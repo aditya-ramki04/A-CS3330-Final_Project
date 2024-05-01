@@ -12,6 +12,8 @@ public class PacMan {
     private boolean allowMovement = true;
     private int score;
     private PowerUp powerUp;
+    private Pellet pellet;
+    private Food strawberry;
     
     private int cellSize = 38; // Rounded from 38.09 for simplicity
 
@@ -35,7 +37,6 @@ public class PacMan {
     private ImageIcon downClosedIcon;
     private JPanel mazePanel;
     
-
     private int currentDirection;
     private int moveCount;
     private int pacmanSize = 30;
@@ -44,9 +45,9 @@ public class PacMan {
         this.maze = maze;
         this.mazePanel = mazePanel;
         this.powerUp = new PowerUp(maze, mazePanel, this);
-        
+        this.pellet = new Pellet(maze, mazePanel, this);
+        this.strawberry = new Food(maze, mazePanel, this);
         this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH)));
-        
         this.rightOpenIcon = new ImageIcon(new ImageIcon(PACMAN_RIGHT_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
         this.leftOpenIcon = new ImageIcon(new ImageIcon(PACMAN_LEFT_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
         this.upOpenIcon = new ImageIcon(new ImageIcon(PACMAN_UP_IMAGE_OPEN).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
@@ -137,9 +138,9 @@ public class PacMan {
             // Check if Pacman's new position overlaps with a pellet
             int cellX = (int) (x / cellSize);
             int cellY = (int) (y / cellSize);
-            eatPellet(cellY, cellX); // Cell indices are swapped due to row-column convention
+            pellet.eatPellet(cellY, cellX); // Cell indices are swapped due to row-column convention
 
-            eatCherryBonus(cellY, cellX);
+            strawberry.eatCherryBonus(cellY, cellX);
 
             powerUp.eatPowerUp(cellY, cellX);
 
@@ -164,44 +165,6 @@ public class PacMan {
                          ;
 
         return !isWall; // If not a wall, the move is valid
-    }
-    
-    public void eatPellet(int row, int col) {
-        if (maze.getMapGrid()[row][col] == 2) 
-        { // Check if Pacman's position corresponds to a pellet
-            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
-            incrementScore(100);
-            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
-            Component[] components = mazePanel.getComponents();
-            int cellIndex = row * maze.getMapGrid()[0].length + col;
-            if (cellIndex >= 0 && cellIndex < components.length) {
-                JLabel cellLabel = (JLabel) components[cellIndex];
-                cellLabel.setBackground(Color.BLACK);
-                cellLabel.setIcon(null); // Clear any existing icon
-            }
-
-            // You can also increment a score counter or perform any other necessary actions here
-        }
-    }
-    
-
-    public void eatCherryBonus(int row, int col) {
-        
-        if (maze.getMapGrid()[row][col] == 4) { // Check if Pacman's position corresponds to a pellet
-            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
-            System.out.println("Cherry Bonus eaten at row: " + row + ", col: " + col);
-            incrementScore(1000);
-            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
-            Component[] components = mazePanel.getComponents();
-            int cellIndex = row * maze.getMapGrid()[0].length + col;
-            if (cellIndex >= 0 && cellIndex < components.length) {
-                JLabel cellLabel = (JLabel) components[cellIndex];
-                cellLabel.setBackground(Color.BLACK);
-                cellLabel.setIcon(null); // Clear any existing icon
-            }
-
-            // You can also increment a score counter or perform any other necessary actions here
-        } 
     }
     
 	 public void incrementScore(int points) {

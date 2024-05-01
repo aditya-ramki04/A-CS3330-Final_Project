@@ -1,30 +1,39 @@
 package edu.mu.PacManMain;
 
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 public class Pellet {
-    private int x;
-    private int y;
-    private boolean isActive;
 
-    public Pellet(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.isActive = true;
+    private JPanel mazePanel;
+    private Maze maze;
+    private PacMan pacMan;
+
+    public Pellet (Maze maze, JPanel mazePanel, PacMan pacMan) {
+        this.maze = maze;
+        this.mazePanel = mazePanel;
+        this.pacMan = pacMan;
     }
+    
+    public void eatPellet(int row, int col) {
+        if (maze.getMapGrid()[row][col] == 2) 
+        { // Check if Pacman's position corresponds to a pellet
+            maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
+            pacMan.incrementScore(100);
+            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
+            Component[] components = mazePanel.getComponents();
+            int cellIndex = row * maze.getMapGrid()[0].length + col;
+            if (cellIndex >= 0 && cellIndex < components.length) {
+                JLabel cellLabel = (JLabel) components[cellIndex];
+                cellLabel.setBackground(Color.BLACK);
+                cellLabel.setIcon(null); // Clear any existing icon
+            }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void consume() {
-        this.isActive = false;
+            // You can also increment a score counter or perform any other necessary actions here
+        }
     }
 }
 
