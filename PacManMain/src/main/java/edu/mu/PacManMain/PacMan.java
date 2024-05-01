@@ -94,6 +94,26 @@ public class PacMan {
     public void toggleMovement() {
         allowMovement = !allowMovement;
     }
+    
+    private void setPacmanIconUp() {
+        label.setIcon(upOpenIcon);
+        label.setIcon(moveCount % 2 == 0 ? upOpenIcon : upClosedIcon);
+    }
+
+    private void setPacmanIconDown() {
+        label.setIcon(downOpenIcon);
+        label.setIcon(moveCount % 2 == 0 ? downOpenIcon : downClosedIcon);
+    }
+
+    private void setPacmanIconLeft() {
+        label.setIcon(leftOpenIcon);
+        label.setIcon(moveCount % 2 == 0 ? leftOpenIcon : leftClosedIcon);
+    }
+
+    private void setPacmanIconRight() {
+        label.setIcon(moveCount % 2 == 0 ? rightOpenIcon : rightClosedIcon);
+    }
+
 
     public void move(KeyEvent evt) {
         if(!allowMovement) {
@@ -108,21 +128,21 @@ public class PacMan {
             case KeyEvent.VK_UP:
                 nextY -= PACMAN_SPEED;
                 label.setIcon(upOpenIcon);
-                label.setIcon(moveCount % 2 == 0 ? upOpenIcon : upClosedIcon);
+                setPacmanIconUp();
                 break;
             case KeyEvent.VK_DOWN:
                 nextY += PACMAN_SPEED;
                 label.setIcon(downOpenIcon);
-                label.setIcon(moveCount % 2 == 0 ? downOpenIcon : downClosedIcon);
+                setPacmanIconDown();
                 break;
             case KeyEvent.VK_LEFT:
                 nextX -= PACMAN_SPEED;
                 label.setIcon(leftOpenIcon);        
-                label.setIcon(moveCount % 2 == 0 ? leftOpenIcon : leftClosedIcon);
+                setPacmanIconLeft();
                 break;
             case KeyEvent.VK_RIGHT:
                 nextX += PACMAN_SPEED;
-                label.setIcon(moveCount % 2 == 0 ? rightOpenIcon : rightClosedIcon);
+                setPacmanIconRight();
                 break;
             default:
                 break;

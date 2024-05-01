@@ -46,6 +46,8 @@ public class GameBoard extends JFrame {
     private JLabel timerLabel;
     private int remainingSeconds = 93;
     private int maxScore = 10000;
+    
+    //maxScore is 22,400
 
     
     public static void main(String[] args) {
