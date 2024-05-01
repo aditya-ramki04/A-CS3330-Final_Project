@@ -40,6 +40,21 @@ public class Ghost {
     public JLabel getLabel() {
         return label;
     }
+    
+ // Getter for x-coordinate
+    public int getX() {
+        return x; // Returns the current x-coordinate of the ghost
+    }
+
+    // Getter for y-coordinate
+    public int getY() {
+        return y; // Returns the current y-coordinate of the ghost
+    }
+
+    // Getter for ghost size
+    public int getGhostSize() {
+        return 30; // Returns the size of the ghost
+    }
 
     public void move() {
     	int nextX = x;

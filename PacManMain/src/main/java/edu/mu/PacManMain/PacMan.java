@@ -74,6 +74,20 @@ public class PacMan {
         label.setBounds(x, y, 0, 0);
     }
     
+    public int getX() {
+        return x; // Returns the current x-coordinate of Pacman
+    }
+
+    // Getter for y-coordinate
+    public int getY() {
+        return y; // Returns the current y-coordinate of Pacman
+    }
+
+    // Getter for Pacman's size
+    public int getPacmanSize() {
+        return pacmanSize; // Returns the size of Pacman
+    }
+    
     public void toggleMovement() {
         allowMovement = !allowMovement;
     }
@@ -122,11 +136,11 @@ public class PacMan {
             int cellX = (int) (x / cellSize);
             int cellY = (int) (y / cellSize);
             eatPellet(cellY, cellX); // Cell indices are swapped due to row-column convention
-<<<<<<< Updated upstream
+
             eatCherryBonus(cellY, cellX);
-=======
+
             eatPowerUp(cellY, cellX);
->>>>>>> Stashed changes
+
         } else {
             System.out.println("Invalid move: Collision detected");
         }
@@ -174,7 +188,7 @@ public class PacMan {
         }
     }
     
-<<<<<<< Updated upstream
+
     public void eatCherryBonus(int row, int col) {
         System.out.println("Checking if cherry bonus at row: " + row + ", col: " + col);
         if (maze.getMapGrid()[row][col] == 4) { // Check if Pacman's position corresponds to a pellet
@@ -199,7 +213,7 @@ public class PacMan {
         }
     }
   
-=======
+
 	 public void eatPowerUp(int row, int col) {
 	        System.out.println("Checking pellet at row: " + row + ", col: " + col);
 	        if (maze.getMapGrid()[row][col] == 3) { // Check if Pacman's position corresponds to a pellet
@@ -223,7 +237,7 @@ public class PacMan {
 	            System.out.println("No pellet found at row: " + row + ", col: " + col);
 	        }
 	    }
->>>>>>> Stashed changes
+
     
     public void updatePosition() {
         label.setLocation(x, y);

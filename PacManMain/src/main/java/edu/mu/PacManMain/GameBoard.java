@@ -273,50 +273,82 @@ public class GameBoard extends JFrame {
             }
         });
 
-        // Game loop using Timer
-        Timer timer = new Timer(20, new ActionListener() 
-        {
-        	private int ghostIndex = 0;
-        	
+     // Timer-based game loop with collision detection
+        Timer timer = new Timer(20, new ActionListener() {
+            private int ghostIndex = 0;
+
             @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-            	if (!isPaused) 
-            	{
+            public void actionPerformed(ActionEvent e) {
+                if (!isPaused) {
+                    SwingUtilities.invokeLater(() -> { // Ensure thread safety
+                        // Move and update ghosts
+                        switch (ghostIndex) {
+                            case 0:
+                                cyanghost.move();
+                                cyanghost.updatePosition();
+                                break;
+                            case 1:
+                                pinkghost.move();
+                                pinkghost.updatePosition();
+                                break;
+                            case 2:
+                                orangeghost.move();
+                                orangeghost.updatePosition();
+                                break;
+                            case 3:
+                                redghost.move();
+                                redghost.updatePosition();
+                                break;
+                        }
 
-                    // Check which ghost to move and update
-                    switch (ghostIndex) {
-                        case 0:
-                            cyanghost.move();
-                            cyanghost.updatePosition();
-                            break;
-                        case 1:
-                            pinkghost.move();
-                            pinkghost.updatePosition();
-                            break;
-                        case 2:
-                            orangeghost.move();
-                           orangeghost.updatePosition();
-                            break;
-                        case 3:
-                            redghost.move();
-                            redghost.updatePosition();
-                            break;
-                    }
-                    // Increment the ghost index to move to the next ghost in the next iteration
-                    ghostIndex = (ghostIndex + 1) % 7;
-                    
-                 // Update Pacman's position
-                    pacman.updatePosition();
-                 // Inside the actionPerformed method of your GameBoard class
+                        // Increment the ghost index
+                        ghostIndex = (ghostIndex + 1) % 7;
 
-            }
+                        // Update Pacman's position
+                        pacman.updatePosition();
+
+                        // Check for Pacman-ghost collisions
+                        if (checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
+                            handlePacmanGhostCollision(); // Handle the collision response
+                        }
+                    });
+                }
             }
         });
-        timer.setInitialDelay(3000);
-        timer.start();
+
+        timer.setInitialDelay(3000); // Adjust the delay as needed
+        timer.start(); // Start the game loop
+
     }
     
+    
+    public void handlePacmanGhostCollision() {
+        System.out.println("Pacman collided with a ghost!");
+        // Implement collision handling logic, like losing a life, resetting Pacman's position, or ending the game
+    }
+    
+    public boolean checkPacmanGhostCollision(PacMan pacman, Ghost[] ghosts, int safetyMargin) {
+        // Define Pacman's bounds with a safety margin
+        int pacmanX = pacman.getX() - safetyMargin;
+        int pacmanY = pacman.getY() - safetyMargin;
+        int pacmanSize = pacman.getPacmanSize() + (2 * safetyMargin); // Adjust for the margin
+        Rectangle pacmanBounds = new Rectangle(pacmanX, pacmanY, pacmanSize, pacmanSize);
+
+        // Loop through each ghost and check for collisions
+        for (Ghost ghost : ghosts) {
+            int ghostX = ghost.getX() - safetyMargin;
+            int ghostY = ghost.getY() - safetyMargin;
+            int ghostSize = ghost.getGhostSize() + (2 * safetyMargin); // Adjust for the margin
+            Rectangle ghostBounds = new Rectangle(ghostX, ghostY, ghostSize, ghostSize);
+
+            // Check if Pacman's bounds intersect with the ghost's bounds
+            if (pacmanBounds.intersects(ghostBounds)) {
+                return true; // Collision detected
+            }
+        }
+
+        return false; // No collision
+    }
     private void createPauseScreen() {
         pauseScreen = new JPanel() {
             @Override
