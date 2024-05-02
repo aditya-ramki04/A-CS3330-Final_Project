@@ -271,7 +271,7 @@ public class GameBoard extends JFrame {
 
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
-        pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
+        PacMan pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
 
         pacman.setPosition(387, 200);   
         
@@ -345,9 +345,10 @@ public class GameBoard extends JFrame {
                         pacman.updatePosition();
 
                         // Check for Pacman-ghost collisions
-                        if (checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
-                            handlePacmanGhostCollision(); // Handle the collision response
+                        if (!pacman.isPowerUpActive() && checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
+                            handlePacmanGhostCollision(); // Handle the collision response only if power-up is not active
                         }
+                        
                         if(maxScore == pacman.getScore())
                         {
                         	System.out.println("You win!!");

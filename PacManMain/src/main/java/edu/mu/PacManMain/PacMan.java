@@ -14,8 +14,9 @@ public class PacMan {
     private PowerUp powerUp;
     private Pellet pellet;
     private Food strawberry;
-    
+    private boolean powerUpActive = false;
     private int cellSize = 38; // Rounded from 38.09 for simplicity
+
 
     private static final String PACMAN_RIGHT_IMAGE_OPEN = "images/pacmanrightopen.png";
     private static final String PACMAN_LEFT_IMAGE_OPEN = "images/pacmanleftopen.png";
@@ -57,6 +58,14 @@ public class PacMan {
         this.downClosedIcon = new ImageIcon(new ImageIcon(PACMAN_DOWN_IMAGE_CLOSED).getImage().getScaledInstance(pacmanSize, pacmanSize, Image.SCALE_SMOOTH));
         
         this.currentDirection = KeyEvent.VK_RIGHT; 
+    }
+    
+    public boolean isPowerUpActive() {
+        return powerUpActive;
+    }
+
+    public void setPowerUpActive(boolean powerUpActive) {
+        this.powerUpActive = powerUpActive;
     }
 
     public JLabel getLabel() {

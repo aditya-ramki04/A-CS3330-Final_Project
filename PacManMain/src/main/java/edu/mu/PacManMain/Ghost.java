@@ -115,5 +115,10 @@ public class Ghost {
     private int getRandomDirection() {
     	return random.nextInt(4); // 0: UP, 1: DOWN, 2: LEFT, 3: RIGHT
     }
+    
+    public void setImage(String imagePath) {
+        this.Icon = new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(cell_size, cell_size, Image.SCALE_SMOOTH));
+        this.label.setIcon(Icon);
+    }
 
 }
