@@ -49,8 +49,6 @@ public class GameBoard extends JFrame {
     private JFrame frame;
     private ScorePanel scorePanel;
 
-    
-
 
     
     public static void main(String[] args) {
@@ -613,13 +611,11 @@ public class GameBoard extends JFrame {
     
     private void loadPacmanDeathSound() {
         try {
-<<<<<<< Updated upstream
-           
-            File audioFile = new File("./Audio/pacman_death.wav");
-=======
+            //File audioFile = new File("./Audio/pacman_death.wav");
+
             // Load audio file
             File audioFile = new File("./Audio/womp_womp.wav");
->>>>>>> Stashed changes
+
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             pacmanDeathSound = AudioSystem.getClip();
             pacmanDeathSound.open(audioStream);

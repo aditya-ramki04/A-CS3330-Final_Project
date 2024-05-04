@@ -22,7 +22,6 @@ public class Ghost {
    
 
     private ImageIcon Icon;
-    private ImageIcon image;
     
     private int currentDirection;
     private Random random;
@@ -35,7 +34,6 @@ public class Ghost {
 
         this.random = new Random();
         this.currentDirection = getRandomDirection();
-        this.image = new ImageIcon(imagePath);
 
     }
 
