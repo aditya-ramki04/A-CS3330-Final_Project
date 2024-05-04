@@ -15,8 +15,7 @@ public class PacMan {
     private Pellet pellet;
     private Food strawberry;
     private boolean powerUpActive = false;
-    private int cellSize = 38; // Rounded from 38.09 for simplicity
-
+    private int cellSize = 38;
 
     private static final String PACMAN_RIGHT_IMAGE_OPEN = "images/pacmanrightopen.png";
     private static final String PACMAN_LEFT_IMAGE_OPEN = "images/pacmanleftopen.png";
@@ -87,17 +86,16 @@ public class PacMan {
     }
     
     public int getX() {
-        return x; // Returns the current x-coordinate of Pacman
+        return x; 
     }
 
-    // Getter for y-coordinate
+
     public int getY() {
-        return y; // Returns the current y-coordinate of Pacman
+        return y;
     }
 
-    // Getter for Pacman's size
     public int getPacmanSize() {
-        return pacmanSize; // Returns the size of Pacman
+        return pacmanSize; 
     }
     
     public void toggleMovement() {
@@ -157,16 +155,14 @@ public class PacMan {
                 break;
         }
 
-        // Check if the move is valid
+     
         if (isValidMove(nextX, nextY)) {
             x = nextX;
             y = nextY;
             moveCount++;
-            
-            // Check if Pacman's new position overlaps with a pellet
             int cellX = (int) (x / cellSize);
             int cellY = (int) (y / cellSize);
-            pellet.eatPellet(cellY, cellX); // Cell indices are swapped due to row-column convention
+            pellet.eatPellet(cellY, cellX);
 
             strawberry.eatCherryBonus(cellY, cellX);
 
@@ -178,21 +174,18 @@ public class PacMan {
     }
 
     private boolean isValidMove(int x, int y) {
-        int cellX = (int) (x / cellSize); // Convert pixel position to grid cell
+        int cellX = (int) (x / cellSize); 
         int cellY = (int) (y / cellSize);
-
-        // Ensure Pacman stays within the maze bounds
         if (cellX < 0 || cellX >= maze.getMapGrid()[0].length || cellY < 0 || cellY >= maze.getMapGrid().length) {
-            return false; // Out of bounds
+            return false; 
         }
 
-        // Check if the cell is a wall
         int cellValue = maze.getMapGrid()[cellY][cellX];
         boolean isWall = cellValue == 1 || cellValue == 10 || cellValue == 11 || cellValue == 12 ||
                          cellValue == 13 || cellValue == 14 || cellValue == 15 || cellValue == 16 || cellValue == 5
                          ;
 
-        return !isWall; // If not a wall, the move is valid
+        return !isWall; 
     }
     
 	 public void incrementScore(int points) {

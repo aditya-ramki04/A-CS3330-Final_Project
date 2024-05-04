@@ -18,7 +18,7 @@ public class PowerUp {
     private Maze maze;
     private PacMan pacMan;
     private Timer powerUpTimer;
-    private int remainingTime = 0; // Initialize remainingTime
+    private int remainingTime = 0; 
    
     private ScorePanel sPanel;
 
@@ -30,32 +30,31 @@ public class PowerUp {
     }
     
     public void eatPowerUp(int row, int col) {
-        if (maze.getMapGrid()[row][col] == 3) { // Check if Pacman's position corresponds to a power-up
-            maze.getMapGrid()[row][col] = 0; // Remove the power-up from the maze grid
-            pacMan.incrementScore(500); // Increment Pac-Man's score
-//            sPanel.increaseScore(500);
-            pacMan.setPowerUpActive(true); // Set the power-up active flag to true
+        if (maze.getMapGrid()[row][col] == 3) { 
+            maze.getMapGrid()[row][col] = 0; 
+            pacMan.incrementScore(500); 
+            pacMan.setPowerUpActive(true); 
             playPowerUpSound();
-            if (powerUpTimer == null) { // If no timer is running, start a new one
+            if (powerUpTimer == null) { 
                 startPowerUpTimer();
-            } else { // If a timer is running, add the remaining time
-                powerUpTimer.cancel(); // Cancel the current timer
-                startPowerUpTimer(); // Start a new timer with the remaining time
+            } else { 
+                powerUpTimer.cancel(); 
+                startPowerUpTimer(); 
             }
             
-            // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space
+            
             Component[] components = mazePanel.getComponents();
             int cellIndex = row * maze.getMapGrid()[0].length + col;
             if (cellIndex >= 0 && cellIndex < components.length) {
                 JLabel cellLabel = (JLabel) components[cellIndex];
                 cellLabel.setBackground(Color.BLACK);
-                cellLabel.setIcon(null); // Clear any existing icon
+                cellLabel.setIcon(null); 
             }
 
         }
     }
     private void startPowerUpTimer() {
-        pacMan.setPowerUpActive(true); // Set the power-up active flag to true
+        pacMan.setPowerUpActive(true);
 
         powerUpTimer = new Timer();
         powerUpTimer.schedule(new TimerTask() {
@@ -65,36 +64,32 @@ public class PowerUp {
                     System.out.println("Power-up countdown: " + remainingTime + " seconds");
                     remainingTime--;
                 } else {
-                    pacMan.setPowerUpActive(false); // Set the power-up active flag to false after 5 seconds
+                    pacMan.setPowerUpActive(false); 
                     System.out.println("Power-up expired!");
-                    powerUpTimer.cancel(); // Cancel the timer task
-                    powerUpTimer = null; // Set the timer reference to null
+                    powerUpTimer.cancel(); 
+                    powerUpTimer = null; 
                 }
             }
-        }, 0, 1000); // Schedule the task to run every 1 second (1000 milliseconds)
+        }, 0, 1000); 
 
-        remainingTime = 5; // Set initial remaining time to 5 seconds
+        remainingTime = 5; 
     }
 
-    // Method to cancel the power-up timer
     public void cancelPowerUpTimer() {
         if (powerUpTimer != null) {
-            powerUpTimer.cancel(); // Cancel the power-up timer if it's running
-            powerUpTimer = null; // Set the timer reference to null
+            powerUpTimer.cancel();
+            powerUpTimer = null; 
         }
     }
     
     private void playPowerUpSound() {
         try {
-            // Load the PowerUp sound file
             File soundFile = new File("./Audio/pacman_eatfruit.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
             
-            // Get a Clip object to play the PowerUp sound
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             
-            // Play the PowerUp sound
             clip.start();
         } catch (Exception e) {
             e.printStackTrace();

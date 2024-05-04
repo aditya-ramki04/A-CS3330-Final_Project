@@ -10,7 +10,6 @@ public class PinkGhost extends Ghost {
     
     
     public void setPosition(int x, int y) {
-        // Implement the setPosition method specific to CyanGhost
         this.x = x;
         this.y = y;
         label.setBounds(x, y, 50, 50);
