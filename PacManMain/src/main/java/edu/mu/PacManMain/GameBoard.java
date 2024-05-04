@@ -76,7 +76,6 @@ public class GameBoard extends JFrame {
         contentPanel.setLayout(new OverlayLayout(contentPanel)); 
         createPauseScreen();
         showStartScreen();
-        loadPacmanDeathSound();
         int pelletCount= 0;
        
         
@@ -389,6 +388,7 @@ public class GameBoard extends JFrame {
     
     public void handlePacmanGhostCollision() {
         System.out.println("Pacman collided with a ghost! Game over.");
+        loadPacmanDeathSound();
         playPacmanDeathSound();
         stopBackgroundMusic();
         
@@ -633,6 +633,7 @@ public class GameBoard extends JFrame {
     
     
     public JPanel createGameOverScreen() {
+    	
         JPanel gameOverScreen = new JPanel();
         gameOverScreen.setLayout(new BorderLayout()); 
 

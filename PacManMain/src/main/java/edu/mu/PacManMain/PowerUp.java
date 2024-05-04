@@ -36,6 +36,8 @@ public class PowerUp {
             pacMan.incrementScore(500); 
             pacMan.setPowerUpActive(true); 
             playPowerUpSound();
+            
+            
             if (powerUpTimer == null) { 
                 startPowerUpTimer();
             } else { 

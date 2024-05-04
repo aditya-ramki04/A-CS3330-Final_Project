@@ -25,6 +25,7 @@ public class Ghost {
     
     private int currentDirection;
     private Random random;
+    
 
     public Ghost(String imagePath, Maze maze, int cellSize) {
         this.maze = maze;
