@@ -1,5 +1,4 @@
 package edu.mu.PacManMain;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -13,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -134,9 +132,128 @@ public class GameBoard extends JFrame {
         frame.setVisible(true);
         
         JLabel scoreLabel = new JLabel();
+        
+        //created separate method for creating the maze
+        createMaze(maze, mazePanel, pelletCount);
 
+        System.out.println("pellet count "+ pelletCount);
+
+        // Add the mazePanel to the contentPanel
+       // Initialize Pacman
+        this.pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
+
+        pacman.setPosition(387, 200);   
+        
+        cyanghost = new CyanGhost(maze, 30);
+        cyanghost.setPosition(52,40);
+        
+        pinkghost = new PinkGhost(maze, 30);
+        pinkghost.setPosition(725,45);
+        
+        orangeghost = new OrangeGhost(maze, 30);
+        orangeghost.setPosition(52,739);
+
+        redghost = new RedGhost(maze, 30);
+        redghost.setPosition(725,725);
+       
+     // Add Pacman's label to the contentPane        
+        contentPanel.add(cyanghost.getLabel());
+        contentPanel.add(pinkghost.getLabel());
+        contentPanel.add(orangeghost.getLabel());
+        contentPanel.add(redghost.getLabel());
+        contentPanel.add(pacman.getLabel());
+        
+
+        contentPanel.add(mazePanel);
+
+        // Add key listener to move Pacman
+        contentPanel.setFocusable(true);
+        contentPanel.requestFocus();
+        contentPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+            	if(evt.getKeyCode() == KeyEvent.VK_P) {
+            		togglePause();
+            	} else {
+            		pacman.move(evt);
+            	}
+            }
+        });
+
+     // Timer-based game loop with collision detection
+         timer = new Timer(20, new ActionListener() {
+            private int ghostIndex = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isPaused) {
+                    SwingUtilities.invokeLater(() -> { // Ensure thread safety
+                        // Move and update ghosts
+                        switch (ghostIndex) {
+                            case 0:
+                                cyanghost.move();
+                                cyanghost.updatePosition();
+                                break;
+                            case 1:
+                                pinkghost.move();
+                                pinkghost.updatePosition();
+                                break;
+                            case 2:
+                                orangeghost.move();
+                                orangeghost.updatePosition();
+                                break;
+                            case 3:
+                                redghost.move();
+                                redghost.updatePosition();
+                                break;
+                        }
+
+                        // Increment the ghost index
+                        ghostIndex = (ghostIndex + 1) % 7;
+
+                        // Update Pacman's position
+                        pacman.updatePosition();
+
+                        // Check for Pacman-ghost collisions
+                        if (!pacman.isPowerUpActive() && checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
+                            handlePacmanGhostCollision(); // Handle the collision response only if power-up is not active
+                        }
+                        
+                        if(maxScore == pacman.getScore())
+                        {
+                        	System.out.println("You win!!");
+                        	 if (timer != null) {
+                                 timer.stop(); // Stop the game timer
+                             }
+
+                             // Remove all components from the content panel
+                             contentPanel.removeAll(); // Clear the current content
+
+                             // Create and add the "Game Over" screen
+                             JPanel gameOverScreen = createGameOverWinScreen(); // Create the "Game Over" panel
+                             contentPanel.add(gameOverScreen); // Add it to the content panel
+                             
+                             // Revalidate and repaint to update the GUI
+                             contentPanel.revalidate();
+                             contentPanel.repaint();
+                        	
+                        }
+                    });
+                }
+            }
+        });
 
         
+        
+        timer.setInitialDelay(3000); // Adjust the delay as needed
+        timer.start(); // Start the game loop
+        
+        startTimer();
+        
+     
+
+    }
+    
+    public void createMaze(Maze maze, JPanel mazePanel, int pelletCount) {
         BufferedImage pelletImg = null;
 		try {
 			pelletImg = ImageIO.read(new File("images/pellet.png"));
@@ -290,121 +407,6 @@ public class GameBoard extends JFrame {
             mazePanel.add(cell);
         }
         }
-        System.out.println("pellet count "+ pelletCount);
-
-        // Add the mazePanel to the contentPanel
-       // Initialize Pacman
-        this.pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
-
-        pacman.setPosition(387, 200);   
-        
-        cyanghost = new CyanGhost(maze, 30);
-        cyanghost.setPosition(52,40);
-        
-        pinkghost = new PinkGhost(maze, 30);
-        pinkghost.setPosition(725,45);
-        
-        orangeghost = new OrangeGhost(maze, 30);
-        orangeghost.setPosition(52,739);
-
-        redghost = new RedGhost(maze, 30);
-        redghost.setPosition(725,725);
-       
-     // Add Pacman's label to the contentPane        
-        contentPanel.add(cyanghost.getLabel());
-        contentPanel.add(pinkghost.getLabel());
-        contentPanel.add(orangeghost.getLabel());
-        contentPanel.add(redghost.getLabel());
-        contentPanel.add(pacman.getLabel());
-        
-
-        contentPanel.add(mazePanel);
-
-        // Add key listener to move Pacman
-        contentPanel.setFocusable(true);
-        contentPanel.requestFocus();
-        contentPanel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-            	if(evt.getKeyCode() == KeyEvent.VK_P) {
-            		togglePause();
-            	} else {
-            		pacman.move(evt);
-            	}
-            }
-        });
-
-     // Timer-based game loop with collision detection
-         timer = new Timer(20, new ActionListener() {
-            private int ghostIndex = 0;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!isPaused) {
-                    SwingUtilities.invokeLater(() -> { // Ensure thread safety
-                        // Move and update ghosts
-                        switch (ghostIndex) {
-                            case 0:
-                                cyanghost.move();
-                                cyanghost.updatePosition();
-                                break;
-                            case 1:
-                                pinkghost.move();
-                                pinkghost.updatePosition();
-                                break;
-                            case 2:
-                                orangeghost.move();
-                                orangeghost.updatePosition();
-                                break;
-                            case 3:
-                                redghost.move();
-                                redghost.updatePosition();
-                                break;
-                        }
-
-                        // Increment the ghost index
-                        ghostIndex = (ghostIndex + 1) % 7;
-
-                        // Update Pacman's position
-                        pacman.updatePosition();
-
-                        // Check for Pacman-ghost collisions
-                        if (!pacman.isPowerUpActive() && checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
-                            handlePacmanGhostCollision(); // Handle the collision response only if power-up is not active
-                        }
-                        
-                        if(maxScore == pacman.getScore())
-                        {
-                        	System.out.println("You win!!");
-                        	 if (timer != null) {
-                                 timer.stop(); // Stop the game timer
-                             }
-
-                             // Remove all components from the content panel
-                             contentPanel.removeAll(); // Clear the current content
-
-                             // Create and add the "Game Over" screen
-                             JPanel gameOverScreen = createGameOverWinScreen(); // Create the "Game Over" panel
-                             contentPanel.add(gameOverScreen); // Add it to the content panel
-                             
-                             // Revalidate and repaint to update the GUI
-                             contentPanel.revalidate();
-                             contentPanel.repaint();
-                        	
-                        }
-                    });
-                }
-            }
-        });
-
-        
-        
-        timer.setInitialDelay(3000); // Adjust the delay as needed
-        timer.start(); // Start the game loop
-        
-        startTimer();
-        
-     
-
     }
     
     
@@ -721,6 +723,8 @@ public class GameBoard extends JFrame {
 
         return gameOverScreen; // Return the complete "Game Over" panel
     }
+    
+    
 
 
 
