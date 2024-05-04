@@ -35,6 +35,7 @@ public class GameBoard extends JFrame {
     private RedGhost redghost;
     private int cellSize;
     private Timer timer;
+    private Clip pacmanDeathSound;
  
     private ArrayList<Pellet> pellets = new ArrayList<>();
     
@@ -81,6 +82,7 @@ public class GameBoard extends JFrame {
         // Initialize Pacman
         createPauseScreen();
         showStartScreen();
+        loadPacmanDeathSound();
         int pelletCount= 0;
        
         
@@ -292,7 +294,7 @@ public class GameBoard extends JFrame {
 
         // Add the mazePanel to the contentPanel
        // Initialize Pacman
-        PacMan pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
+        this.pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
 
         pacman.setPosition(387, 200);   
         
@@ -408,6 +410,8 @@ public class GameBoard extends JFrame {
     
     public void handlePacmanGhostCollision() {
         System.out.println("Pacman collided with a ghost! Game over.");
+        playPacmanDeathSound();
+        stopBackgroundMusic();
         
         if (timer != null) {
             timer.stop(); // Stop the game timer
@@ -455,6 +459,7 @@ public class GameBoard extends JFrame {
         	return false; // No collision
     	
     }
+    
     
     private void startTimer() {
         Timer timer = new Timer(1000, new ActionListener() {
@@ -608,7 +613,7 @@ public class GameBoard extends JFrame {
                 contentPanel.revalidate();
                 contentPanel.repaint();
                 
-                //playBackgroundMusic();
+                playBackgroundMusic();
             }
         });
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -644,6 +649,28 @@ public class GameBoard extends JFrame {
             bgMusic.close(); // Close the clip to release system resources
         }
     }
+    
+    private void loadPacmanDeathSound() {
+        try {
+            // Load audio file
+            File audioFile = new File("./Audio/pacman_death.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+            // Create clip and open audio stream
+            pacmanDeathSound = AudioSystem.getClip();
+            pacmanDeathSound.open(audioStream);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void playPacmanDeathSound() {
+        if (pacmanDeathSound != null) {
+            pacmanDeathSound.setFramePosition(0); // Rewind the sound to the beginning
+            pacmanDeathSound.start(); // Start playing the sound
+        }
+    }
+    
     
     public JPanel createGameOverScreen() {
         JPanel gameOverScreen = new JPanel();
