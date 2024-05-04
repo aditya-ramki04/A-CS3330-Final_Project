@@ -43,7 +43,7 @@ public class GameBoard extends JFrame {
     private JToggleButton audioToggleButton;
     
     private JLabel timerLabel;
-    private int remainingSeconds = 93;
+    private int remainingSeconds = 123;
     private int maxScore = 10000;
     
     private JFrame frame;
@@ -83,7 +83,6 @@ public class GameBoard extends JFrame {
         loadPacmanDeathSound();
         int pelletCount= 0;
        
-        
         int[][] mapGrid = {
         		{11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16},
     		    {13, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 14},
@@ -470,22 +469,27 @@ public class GameBoard extends JFrame {
                 remainingSeconds--; // Decrement remaining time
                 timerLabel.setText(formatTime(remainingSeconds)); // Update timer label text
 
-                if (remainingSeconds <= 0) {
-                	// Remove all components from the content panel
-                    contentPanel.removeAll(); // Clear the current content
-
-                    // Create and add the "Game Over" screen
-                    JPanel gameOverScreen = createGameOverScreen(); // Create the "Game Over" panel
-                    contentPanel.add(gameOverScreen); // Add it to the content panel
-                    
-                    // Revalidate and repaint to update the GUI
-                    contentPanel.revalidate();
-                    contentPanel.repaint();
-                    ((Timer) e.getSource()).stop(); // Stop the timer
-                }
+                handleEndTimer(e);
             }
         });
         timer.start();
+    }
+    
+    private void handleEndTimer(ActionEvent e) {
+    	if (remainingSeconds <= 0) {
+        	// Remove all components from the content panel
+            contentPanel.removeAll(); // Clear the current content
+
+            // Create and add the "Game Over" screen
+            JPanel gameOverScreen = createGameOverScreen(); // Create the "Game Over" panel
+            contentPanel.add(gameOverScreen); // Add it to the content panel
+            
+            // Revalidate and repaint to update the GUI
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            ((Timer) e.getSource()).stop(); // Stop the timer
+        }
+
     }
 
     private String formatTime(int seconds) {
