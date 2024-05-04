@@ -2,9 +2,13 @@ package edu.mu.PacManMain;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +31,7 @@ public class PowerUp {
             maze.getMapGrid()[row][col] = 0; // Remove the power-up from the maze grid
             pacMan.incrementScore(500); // Increment Pac-Man's score
             pacMan.setPowerUpActive(true); // Set the power-up active flag to true
-            
+            playPowerUpSound();
             if (powerUpTimer == null) { // If no timer is running, start a new one
                 startPowerUpTimer();
             } else { // If a timer is running, add the remaining time
@@ -73,6 +77,23 @@ public class PowerUp {
         if (powerUpTimer != null) {
             powerUpTimer.cancel(); // Cancel the power-up timer if it's running
             powerUpTimer = null; // Set the timer reference to null
+        }
+    }
+    
+    private void playPowerUpSound() {
+        try {
+            // Load the PowerUp sound file
+            File soundFile = new File("./Audio/pacman_eatfruit.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            
+            // Get a Clip object to play the PowerUp sound
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            
+            // Play the PowerUp sound
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
