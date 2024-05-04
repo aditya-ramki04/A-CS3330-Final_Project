@@ -9,18 +9,17 @@ public class Ghost {
 	protected JLabel label;
     protected int x, y;
     private Maze maze;
-    private static final int GHOST_SPEED = 38; // Adjust speed as needed
-    private int cell_size = 38; // Rounded from 38.09 for simplicity
+    private static final int GHOST_SPEED = 38; 
+    private int cell_size = 38; 
 
 
-    // Define integer constants representing directions
+   
     private static final int UP = 0;
     private static final int DOWN = 1;
     private static final int LEFT = 2;
     private static final int RIGHT = 3;
 
-    // Define image paths for different directions
-   // private static final String GHOST_IMAGE = "images/ghostright.png";
+   
 
     private ImageIcon Icon;
     
@@ -41,26 +40,25 @@ public class Ghost {
         return label;
     }
     
- // Getter for x-coordinate
+ 
     public int getX() {
-        return x; // Returns the current x-coordinate of the ghost
+        return x; 
     }
 
-    // Getter for y-coordinate
     public int getY() {
-        return y; // Returns the current y-coordinate of the ghost
+        return y; 
     }
 
-    // Getter for ghost size
+   
     public int getGhostSize() {
-        return 30; // Returns the size of the ghost
+        return 30; 
     }
 
     public void move() {
     	int nextX = x;
         int nextY = y;
 
-        // Update next position based on the current direction
+      
         switch (currentDirection) {
             case UP:
                 nextY -= GHOST_SPEED;
@@ -78,42 +76,40 @@ public class Ghost {
                 break;
         }
 
-        // Check if the next position is valid (not hitting a wall)
+      
         if (!isValidMove(nextX, nextY)) {
-            // If hitting a wall, choose a new random direction
+            
             currentDirection = getRandomDirection();
         } else {
-            // Otherwise, update position
+ 
             x = nextX;
             y = nextY;
         }
     }
 
     private boolean isValidMove(int x, int y) {
-    	int cellX = (int) (x / cell_size); // Convert pixel position to grid cell
+    	int cellX = (int) (x / cell_size); 
         int cellY = (int) (y / cell_size);
 
-        // Ensure Pacman stays within the maze bounds
+      
         if (cellX < 0 || cellX >= maze.getMapGrid()[0].length || cellY < 0 || cellY >= maze.getMapGrid().length) {
-            return false; // Out of bounds
+            return false;
         }
-
-        // Check if the cell is a wall
         int cellValue = maze.getMapGrid()[cellY][cellX];
         boolean isWall = cellValue == 1 || cellValue == 10 || cellValue == 11 || cellValue == 12 ||
                          cellValue == 13 || cellValue == 14 || cellValue == 15 || cellValue == 16 || cellValue == 5
                          ;
 
-        return !isWall; // If not a wall, the move is valid
+        return !isWall; 
     }
 
     public void updatePosition() {
         label.setLocation(x, y);
     }
 
-    // Method to get a random direction
+  
     private int getRandomDirection() {
-    	return random.nextInt(4); // 0: UP, 1: DOWN, 2: LEFT, 3: RIGHT
+    	return random.nextInt(4); 
     }
     
     public void setImage(String imagePath) {
