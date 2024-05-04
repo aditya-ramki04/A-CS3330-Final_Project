@@ -30,6 +30,7 @@ public class PowerUp {
     }
     
     public void eatPowerUp(int row, int col) {
+<<<<<<< Updated upstream
         if (maze.getMapGrid()[row][col] == 3) { 
             maze.getMapGrid()[row][col] = 0; 
             pacMan.incrementScore(500); 
@@ -43,16 +44,40 @@ public class PowerUp {
             }
             
             
+=======
+        if (maze.getMapGrid()[row][col] == 3) {
+            maze.getMapGrid()[row][col] = 0;
+            pacMan.incrementScore(500);
+            pacMan.setPowerUpActive(true);
+            playPowerUpSound();
+
+//            // Change image of all ghosts
+//            for (Ghost ghost : maze.getGhosts()) {
+//                ghost.changeImage("new_image_path_here"); // Replace "new_image_path_here" with the actual path to the new image
+//            }
+
+            if (powerUpTimer == null) {
+                startPowerUpTimer();
+            } else {
+                powerUpTimer.cancel();
+                startPowerUpTimer();
+            }
+
+>>>>>>> Stashed changes
             Component[] components = mazePanel.getComponents();
             int cellIndex = row * maze.getMapGrid()[0].length + col;
             if (cellIndex >= 0 && cellIndex < components.length) {
                 JLabel cellLabel = (JLabel) components[cellIndex];
                 cellLabel.setBackground(Color.BLACK);
+<<<<<<< Updated upstream
                 cellLabel.setIcon(null); 
+=======
+                cellLabel.setIcon(null);
+>>>>>>> Stashed changes
             }
-
         }
     }
+    
     private void startPowerUpTimer() {
         pacMan.setPowerUpActive(true);
 
