@@ -15,6 +15,9 @@ public class PowerUp {
     private PacMan pacMan;
     private Timer powerUpTimer;
     private int remainingTime = 0; // Initialize remainingTime
+   
+    private ScorePanel sPanel;
+
     
     public PowerUp(Maze maze, JPanel mazePanel, PacMan pacMan) {
         this.maze = maze;
@@ -26,6 +29,7 @@ public class PowerUp {
         if (maze.getMapGrid()[row][col] == 3) { // Check if Pacman's position corresponds to a power-up
             maze.getMapGrid()[row][col] = 0; // Remove the power-up from the maze grid
             pacMan.incrementScore(500); // Increment Pac-Man's score
+//            sPanel.increaseScore(500);
             pacMan.setPowerUpActive(true); // Set the power-up active flag to true
             
             if (powerUpTimer == null) { // If no timer is running, start a new one

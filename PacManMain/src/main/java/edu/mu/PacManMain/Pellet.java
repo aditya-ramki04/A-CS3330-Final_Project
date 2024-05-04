@@ -11,6 +11,9 @@ public class Pellet {
     private JPanel mazePanel;
     private Maze maze;
     private PacMan pacMan;
+    
+    private ScorePanel sPanel;
+
 
     public Pellet (Maze maze, JPanel mazePanel, PacMan pacMan) {
         this.maze = maze;
@@ -23,6 +26,7 @@ public class Pellet {
         { // Check if Pacman's position corresponds to a pellet
             maze.getMapGrid()[row][col] = 0; // Remove the pellet from the maze grid
             pacMan.incrementScore(100);
+    //        sPanel.increaseScore(100);
             // Update the appearance of the corresponding JLabel in the maze panel to represent an empty space (black square)
             Component[] components = mazePanel.getComponents();
             int cellIndex = row * maze.getMapGrid()[0].length + col;

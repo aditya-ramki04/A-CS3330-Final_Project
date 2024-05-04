@@ -47,10 +47,16 @@ public class GameBoard extends JFrame {
     private int remainingSeconds = 93;
     private int maxScore = 10000;
     
+    private JFrame frame;
+    private ScorePanel scorePanel;
+
+    
     //maxScore is 22,400
 
     
     public static void main(String[] args) {
+    	SwingUtilities.invokeLater(() -> new GameBoard());
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -112,7 +118,22 @@ public class GameBoard extends JFrame {
         contentPanel.add(timerLabel, BorderLayout.EAST);
         timerLabel.setBounds(0, 315, 100, 30);
         timerLabel.setHorizontalAlignment(SwingConstants.TRAILING); 
+ 
+        frame = new JFrame("Pacman");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        // Create score panel
+        scorePanel = new ScorePanel();
+        
+        // Add score panel to frame
+        frame.getContentPane().add(scorePanel, BorderLayout.NORTH);
+        
+        frame.pack();
+        frame.setVisible(true);
+        
+        JLabel scoreLabel = new JLabel();
+
+
         
         BufferedImage pelletImg = null;
 		try {
