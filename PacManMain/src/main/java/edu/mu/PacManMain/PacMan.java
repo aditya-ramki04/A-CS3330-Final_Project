@@ -8,7 +8,7 @@ public class PacMan {
     private JLabel label;
     private int x, y;
     private Maze maze;
-    private static final int PACMAN_SPEED = 38;
+    static final int PACMAN_SPEED = 38;
     private boolean allowMovement = true;
     private int score;
     private PowerUp powerUp;
@@ -40,6 +40,14 @@ public class PacMan {
     private int moveCount;
     private int pacmanSize = 30;
 
+    /**
+     * Initializes the PacMan character.
+     *
+     * @param imagePath  The path to the image representing PacMan.
+     * @param maze       The maze in which PacMan moves.
+     * @param mazePanel  The panel containing the maze.
+     * @param cellSize   The size of each cell in the maze.
+     */
     public PacMan(String imagePath, Maze maze, JPanel mazePanel, int cellSize) {
         this.maze = maze;
         this.mazePanel = mazePanel;
@@ -59,69 +67,121 @@ public class PacMan {
         this.currentDirection = KeyEvent.VK_RIGHT; 
     }
     
+    /**
+     * Checks if the PowerUp is active.
+     *
+     * @return True if the PowerUp is active, otherwise false.
+     */
     public boolean isPowerUpActive() {
         return powerUpActive;
     }
 
+    /**
+     * Sets the status of the PowerUp.
+     *
+     * @param powerUpActive True to activate the PowerUp, false to deactivate.
+     */
     public void setPowerUpActive(boolean powerUpActive) {
         this.powerUpActive = powerUpActive;
     }
 
+    /**
+     * Gets the label representing PacMan.
+     *
+     * @return The label representing PacMan.
+     */
     public JLabel getLabel() {
         return label;
     }
-    
+
+    /**
+     * Gets the X coordinate of PacMan in the maze.
+     *
+     * @return The X coordinate of PacMan.
+     */
     public int getCellX() {
         return (int) (x / cellSize);
     }
 
+    /**
+     * Gets the Y coordinate of PacMan in the maze.
+     *
+     * @return The Y coordinate of PacMan.
+     */
     public int getCellY() {
         return (int) (y / cellSize);
     }
 
+    /**
+     * Sets the position of PacMan in the maze.
+     *
+     * @param x The X coordinate.
+     * @param y The Y coordinate.
+     */
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
         label.setBounds(x, y, 0, 0);
     }
-    
+
+    /**
+     * Gets the X coordinate of PacMan.
+     *
+     * @return The X coordinate of PacMan.
+     */
     public int getX() {
-        return x; 
+        return x;
     }
 
-
+    /**
+     * Gets the Y coordinate of PacMan.
+     *
+     * @return The Y coordinate of PacMan.
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Returns the size of PacMan.
+     *
+     * @return The size of PacMan.
+     */
     public int getPacmanSize() {
-        return pacmanSize; 
+        return pacmanSize;
     }
-    
+
+    /**
+     * Toggles the movement of PacMan.
+     */
     public void toggleMovement() {
         allowMovement = !allowMovement;
     }
-    
+ 
     private void setPacmanIconUp() {
         label.setIcon(upOpenIcon);
         label.setIcon(moveCount % 2 == 0 ? upOpenIcon : upClosedIcon);
     }
-
+ 
     private void setPacmanIconDown() {
         label.setIcon(downOpenIcon);
         label.setIcon(moveCount % 2 == 0 ? downOpenIcon : downClosedIcon);
     }
-
+ 
     private void setPacmanIconLeft() {
         label.setIcon(leftOpenIcon);
         label.setIcon(moveCount % 2 == 0 ? leftOpenIcon : leftClosedIcon);
     }
-
+    
     private void setPacmanIconRight() {
         label.setIcon(moveCount % 2 == 0 ? rightOpenIcon : rightClosedIcon);
     }
 
-
+    /**
+     * Moves PacMan based on the KeyEvent received.
+     *
+     * @param evt The KeyEvent representing the user input.
+     */
     public void move(KeyEvent evt) {
         if(!allowMovement) {
             return;
@@ -172,7 +232,14 @@ public class PacMan {
             System.out.println("Invalid move: Collision detected");
         }
     }
-
+  
+    /**
+     * Checks if the given coordinates represent a valid move for PacMan.
+     *
+     * @param x The X coordinate of the move.
+     * @param y The Y coordinate of the move.
+     * @return True if the move is valid, false if the move is blocked by a wall or out of bounds.
+     */
     private boolean isValidMove(int x, int y) {
         int cellX = (int) (x / cellSize); 
         int cellY = (int) (y / cellSize);
@@ -188,19 +255,37 @@ public class PacMan {
         return !isWall; 
     }
     
-	 public void incrementScore(int points) {
-		    score += points;
-		    System.out.println("Your current score: " + score);
-		}
-	 
+    /**
+     * Increments the score by the specified number of points.
+     *
+     * @param points The number of points to increment the score by.
+     */
+    public void incrementScore(int points) {
+        score += points;
+        System.out.println("Your current score: " + score);
+    }
+
+    /**
+     * Updates the position of PacMan on the screen.
+     */
     public void updatePosition() {
         label.setLocation(x, y);
     }
+
+    /**
+     * Gets the current score.
+     *
+     * @return The current score.
+     */
     public int getScore() {
-    	return score;
+        return score;
     }
+
+    /**
+     * Resets the score to zero.
+     */
     public void resetScore() {
-    	score = 0;
+        score = 0;
     }
    
 }
