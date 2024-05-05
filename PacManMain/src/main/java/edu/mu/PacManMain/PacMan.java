@@ -40,7 +40,7 @@ public class PacMan {
     private int moveCount;
     private int pacmanSize = 30;
 
-<<<<<<< Updated upstream
+
     /**
      * Initializes the PacMan character.
      *
@@ -48,15 +48,6 @@ public class PacMan {
      * @param maze       The maze in which PacMan moves.
      * @param mazePanel  The panel containing the maze.
      * @param cellSize   The size of each cell in the maze.
-=======
-    
-    /**
-     * 
-     * @param imagePath
-     * @param maze
-     * @param mazePanel
-     * @param cellSize
->>>>>>> Stashed changes
      */
     public PacMan(String imagePath, Maze maze, JPanel mazePanel, int cellSize) {
         this.maze = maze;
