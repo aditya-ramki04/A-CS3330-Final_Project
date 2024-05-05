@@ -26,7 +26,12 @@ public class Ghost {
     private int currentDirection;
     private Random random;
     
-
+    /**
+     * 
+     * @param imagePath
+     * @param maze
+     * @param cellSize
+     */
     public Ghost(String imagePath, Maze maze, int cellSize) {
         this.maze = maze;
         this.label = new JLabel(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
@@ -37,25 +42,40 @@ public class Ghost {
         this.currentDirection = getRandomDirection();
 
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     public JLabel getLabel() {
         return label;
     }
     
- 
+    /**
+     * 
+     * @return
+     */
     public int getX() {
         return x; 
     }
 
+    /**
+     * 
+     * @return
+     */
     public int getY() {
         return y; 
     }
 
-   
+    /**
+     * 
+     * @return
+     */
     public int getGhostSize() {
         return 30; 
     }
-
+    
+    
     public void move() {
     	int nextX = x;
         int nextY = y;
@@ -88,7 +108,13 @@ public class Ghost {
             y = nextY;
         }
     }
-
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
     private boolean isValidMove(int x, int y) {
     	int cellX = (int) (x / cell_size); 
         int cellY = (int) (y / cell_size);
@@ -104,16 +130,24 @@ public class Ghost {
 
         return !isWall; 
     }
-
+    
+    
     public void updatePosition() {
         label.setLocation(x, y);
     }
 
-  
+    /**
+     * 
+     * @return
+     */
     private int getRandomDirection() {
     	return random.nextInt(4); 
     }
     
+    /**
+     * 
+     * @param imagePath
+     */
     public void setImage(String imagePath) {
         this.Icon = new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(cell_size, cell_size, Image.SCALE_SMOOTH));
         this.label.setIcon(Icon);

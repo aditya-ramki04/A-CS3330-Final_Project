@@ -49,8 +49,7 @@ public class GameBoard extends JFrame {
     private JFrame frame;
     private ScorePanel scorePanel;
 
-
-    
+        
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(() -> new GameBoard());
 
@@ -593,6 +592,7 @@ public class GameBoard extends JFrame {
                 contentPanel.revalidate();
                 contentPanel.repaint();
                 playBackgroundMusic();
+                
             }
         });
         GridBagConstraints gbcStartButton = new GridBagConstraints();
