@@ -388,7 +388,7 @@ public class GameBoard extends JFrame {
     
     public void handlePacmanGhostCollision() {
         System.out.println("Pacman collided with a ghost! Game over.");
-        //loadPacmanDeathSound();
+     
         playPacmanDeathSound();
         stopBackgroundMusic();
         
@@ -555,12 +555,12 @@ public class GameBoard extends JFrame {
 
  
     private void showStartScreen() {
-        // Create start screen panel
+
         startScreen = new JPanel();
         startScreen.setLayout(new GridBagLayout());
         startScreen.setBackground(new Color(0, 0, 0, 200));
 
-        // Title label
+       
         JLabel titleLabel = new JLabel("Welcome to Pac-Man!");
         titleLabel.setFont(new Font("Press Start 2P", Font.BOLD, 48));
         titleLabel.setForeground(Color.YELLOW);
@@ -571,7 +571,7 @@ public class GameBoard extends JFrame {
         gbcTitleLabel.insets = new Insets(50, 0, 30, 0);
         startScreen.add(titleLabel, gbcTitleLabel);
 
-        // Pac-Man image
+       
         ImageIcon pacmanIcon = new ImageIcon("./images/pacman.png");
         JLabel pacmanLabel = new JLabel(pacmanIcon);
         GridBagConstraints gbcPacmanLabel = new GridBagConstraints();
@@ -580,7 +580,7 @@ public class GameBoard extends JFrame {
         gbcPacmanLabel.insets = new Insets(0, 0, 50, 0);
         startScreen.add(pacmanLabel, gbcPacmanLabel);
 
-        // Start button
+      
         JButton startButton = new JButton("Start Game");
         startButton.setFont(new Font("Press Start 2P", Font.BOLD, 24));
         startButton.setBackground(Color.YELLOW);
@@ -649,18 +649,18 @@ public class GameBoard extends JFrame {
     
     private void playWinSound() {
         try {
-            // Load the win sound file
+         
             File audioFile = new File("./Audio/pacman_win.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
-            // Create a Clip to play the sound
+           
             Clip winSound = AudioSystem.getClip();
             winSound.open(audioStream);
 
-            // Start playing the sound
+
             winSound.start();
 
-            // Optionally, you can loop the sound or set other properties here
+           
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -680,17 +680,7 @@ public class GameBoard extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         buttonPanel.setOpaque(false);
 
-        JButton restartButton = new JButton("Restart");
-        restartButton.setFont(new Font("Arial", Font.BOLD, 18));
-        restartButton.setBackground(Color.WHITE);
-        restartButton.setForeground(Color.BLACK);
-        restartButton.setFocusPainted(false);
-        restartButton.addActionListener(e -> {
-            resetGame();
-            contentPanel.remove(gameOverScreen);
-            contentPanel.revalidate();
-            contentPanel.repaint();
-        });
+      
 
         JButton quitButton = new JButton("Quit");
         quitButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -699,7 +689,6 @@ public class GameBoard extends JFrame {
         quitButton.setFocusPainted(false);
         quitButton.addActionListener(e -> System.exit(0));
 
-        buttonPanel.add(restartButton);
         buttonPanel.add(quitButton);
 
         gameOverScreen.add(buttonPanel, BorderLayout.CENTER);
@@ -723,17 +712,7 @@ public class GameBoard extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         buttonPanel.setOpaque(false);
 
-        JButton restartButton = new JButton("Restart");
-        restartButton.setFont(new Font("Arial", Font.BOLD, 18));
-        restartButton.setBackground(Color.WHITE);
-        restartButton.setForeground(Color.BLACK);
-        restartButton.setFocusPainted(false);
-        restartButton.addActionListener(e -> {
-            resetGame();
-            contentPanel.remove(gameOverScreen);
-            contentPanel.revalidate();
-            contentPanel.repaint();
-        });
+      
 
         JButton quitButton = new JButton("Quit");
         quitButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -742,110 +721,13 @@ public class GameBoard extends JFrame {
         quitButton.setFocusPainted(false);
         quitButton.addActionListener(e -> System.exit(0));
 
-        buttonPanel.add(restartButton);
-        buttonPanel.add(quitButton);
 
         gameOverScreen.add(buttonPanel, BorderLayout.CENTER);
 
         return gameOverScreen;
     }
 
-    private void resetGame() {
-        remainingSeconds = 93;
-        pacman.resetScore();
-        timerLabel.setText(formatTime(remainingSeconds));
-        contentPanel.removeAll();
-        showStartScreen();
-        contentPanel.revalidate();
-        contentPanel.repaint();
-        
-        createPauseScreen();
-        JPanel mazePanel = new JPanel();
-        mazePanel.setLayout(new GridLayout(maze.getMapGrid().length, maze.getMapGrid()[0].length));
-        int pelletCount = 0; 
-        createMaze(maze, mazePanel, pelletCount); 
-        
-
-        
-        pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
-        pacman.setPosition(387, 200);
-        cyanghost = new CyanGhost(maze, 30);
-        cyanghost.setPosition(52, 40);
-        pinkghost = new PinkGhost(maze, 30);
-        pinkghost.setPosition(725, 45);
-        orangeghost = new OrangeGhost(maze, 30);
-        orangeghost.setPosition(52, 739);
-        redghost = new RedGhost(maze, 30);
-        redghost.setPosition(725, 725);
-        contentPanel.add(cyanghost.getLabel());
-        contentPanel.add(pinkghost.getLabel());
-        contentPanel.add(orangeghost.getLabel());
-        contentPanel.add(redghost.getLabel());
-        contentPanel.add(pacman.getLabel());
-        contentPanel.add(mazePanel);
-        contentPanel.setFocusable(true);
-        contentPanel.requestFocus();
-        contentPanel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                if (evt.getKeyCode() == KeyEvent.VK_P) {
-                    togglePause();
-                } else {
-                    pacman.move(evt);
-                }
-            }
-        });
-        
-        timer = new Timer(20, new ActionListener() {
-            private int ghostIndex = 0;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!isPaused) {
-                    SwingUtilities.invokeLater(() -> {
-                        switch (ghostIndex) {
-                            case 0:
-                                cyanghost.move();
-                                cyanghost.updatePosition();
-                                break;
-                            case 1:
-                                pinkghost.move();
-                                pinkghost.updatePosition();
-                                break;
-                            case 2:
-                                orangeghost.move();
-                                orangeghost.updatePosition();
-                                break;
-                            case 3:
-                                redghost.move();
-                                redghost.updatePosition();
-                                break;
-                        }
-                        ghostIndex = (ghostIndex + 1) % 7;
-                        pacman.updatePosition();
-                        if (!pacman.isPowerUpActive() && checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
-                            handlePacmanGhostCollision();
-                        }
-                        if (maxScore == pacman.getScore()) {
-                            System.out.println("You win!!");
-                            if (timer != null) {
-                                timer.stop();
-                            }
-                            contentPanel.removeAll();
-                            JPanel gameOverScreen = createGameOverWinScreen();
-                            contentPanel.add(gameOverScreen);
-                            contentPanel.revalidate();
-                            contentPanel.repaint();
-                        }
-                    });
-                }
-            }
-        });
-        
-        timer.setInitialDelay(3000);
-        timer.start();
-        
-        startTimer();
-    }
-
+   
 }
 
 
