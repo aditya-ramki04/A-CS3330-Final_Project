@@ -555,35 +555,57 @@ public class GameBoard extends JFrame {
 
  
     private void showStartScreen() {
+        // Create start screen panel
         startScreen = new JPanel();
-        startScreen.setLayout(new BorderLayout());
+        startScreen.setLayout(new GridBagLayout());
+        startScreen.setBackground(new Color(0, 0, 0, 200));
 
+        // Title label
         JLabel titleLabel = new JLabel("Welcome to Pac-Man!");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Press Start 2P", Font.BOLD, 48));
+        titleLabel.setForeground(Color.YELLOW);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        startScreen.add(titleLabel, BorderLayout.NORTH);
+        GridBagConstraints gbcTitleLabel = new GridBagConstraints();
+        gbcTitleLabel.gridx = 0;
+        gbcTitleLabel.gridy = 0;
+        gbcTitleLabel.insets = new Insets(50, 0, 30, 0);
+        startScreen.add(titleLabel, gbcTitleLabel);
 
+        // Pac-Man image
+        ImageIcon pacmanIcon = new ImageIcon("./images/pacman.png");
+        JLabel pacmanLabel = new JLabel(pacmanIcon);
+        GridBagConstraints gbcPacmanLabel = new GridBagConstraints();
+        gbcPacmanLabel.gridx = 0;
+        gbcPacmanLabel.gridy = 1;
+        gbcPacmanLabel.insets = new Insets(0, 0, 50, 0);
+        startScreen.add(pacmanLabel, gbcPacmanLabel);
+
+        // Start button
         JButton startButton = new JButton("Start Game");
-        startButton.setFont(new Font("Arial", Font.BOLD, 16));
-        startButton.setBackground(Color.WHITE); 
-        startButton.setForeground(Color.BLACK); 
-        startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
-        startButton.setFocusPainted(false); 
+        startButton.setFont(new Font("Press Start 2P", Font.BOLD, 24));
+        startButton.setBackground(Color.YELLOW);
+        startButton.setForeground(Color.BLACK);
+        startButton.setFocusPainted(false);
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 contentPanel.remove(startScreen);
                 contentPanel.revalidate();
                 contentPanel.repaint();
-                
                 playBackgroundMusic();
             }
         });
-        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        startScreen.add(startButton, BorderLayout.CENTER);
+        GridBagConstraints gbcStartButton = new GridBagConstraints();
+        gbcStartButton.gridx = 0;
+        gbcStartButton.gridy = 2;
+        gbcStartButton.insets = new Insets(0, 0, 50, 0);
+        startScreen.add(startButton, gbcStartButton);
 
-        contentPanel.add(startScreen);
+        contentPanel.add(startScreen, BorderLayout.CENTER);
     }
+
+
+
     
     private void playBackgroundMusic() {
         try {
