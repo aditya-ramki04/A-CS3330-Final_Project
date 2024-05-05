@@ -388,7 +388,7 @@ public class GameBoard extends JFrame {
     
     public void handlePacmanGhostCollision() {
         System.out.println("Pacman collided with a ghost! Game over.");
-        loadPacmanDeathSound();
+        //loadPacmanDeathSound();
         playPacmanDeathSound();
         stopBackgroundMusic();
         
@@ -609,83 +609,220 @@ public class GameBoard extends JFrame {
         }
     }
     
-    private void loadPacmanDeathSound() {
+    private void playPacmanDeathSound() {
         try {
-            //File audioFile = new File("./Audio/pacman_death.wav");
-
-            // Load audio file
             File audioFile = new File("./Audio/womp_womp.wav");
 
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            pacmanDeathSound = AudioSystem.getClip();
+            
+            Clip pacmanDeathSound = AudioSystem.getClip();
             pacmanDeathSound.open(audioStream);
+            
+            pacmanDeathSound.setFramePosition(0);
+            pacmanDeathSound.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
     
-    public void playPacmanDeathSound() {
-        if (pacmanDeathSound != null) {
-            pacmanDeathSound.setFramePosition(0); 
-            pacmanDeathSound.start(); 
+    private void playWinSound() {
+        try {
+            // Load the win sound file
+            File audioFile = new File("./Audio/pacman_win.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+            // Create a Clip to play the sound
+            Clip winSound = AudioSystem.getClip();
+            winSound.open(audioStream);
+
+            // Start playing the sound
+            winSound.start();
+
+            // Optionally, you can loop the sound or set other properties here
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
     
-    
     public JPanel createGameOverScreen() {
-    	
-        JPanel gameOverScreen = new JPanel();
-        gameOverScreen.setLayout(new BorderLayout()); 
+        JPanel gameOverScreen = new JPanel(new BorderLayout());
+        gameOverScreen.setBackground(Color.BLACK);
 
         JLabel gameOverLabel = new JLabel("Game Over");
-        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48)); 
-        gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER); 
-        gameOverScreen.add(gameOverLabel, BorderLayout.CENTER); 
-
-        JPanel buttonPanel = new JPanel(); 
-        buttonPanel.setLayout(new FlowLayout()); 
-
-        JButton restartButton = new JButton("Restart");
-    
-        buttonPanel.add(restartButton); 
-
-        JButton quitButton = new JButton("Quit");
-        quitButton.addActionListener(e -> System.exit(0)); 
-        buttonPanel.add(quitButton); 
-
-        gameOverScreen.add(buttonPanel, BorderLayout.SOUTH); 
-
-        return gameOverScreen; 
-    }
-    
-    public JPanel createGameOverWinScreen() {
-        JPanel gameOverScreen = new JPanel();
-        gameOverScreen.setLayout(new BorderLayout()); 
-
-        JLabel gameOverLabel = new JLabel("Congrats, you won!");
-        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48)); 
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        gameOverLabel.setForeground(Color.RED);
         gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gameOverScreen.add(gameOverLabel, BorderLayout.CENTER); 
+        gameOverLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+        gameOverScreen.add(gameOverLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(); 
-        buttonPanel.setLayout(new FlowLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        buttonPanel.setOpaque(false);
 
         JButton restartButton = new JButton("Restart");
-    
-        buttonPanel.add(restartButton);
+        restartButton.setFont(new Font("Arial", Font.BOLD, 18));
+        restartButton.setBackground(Color.WHITE);
+        restartButton.setForeground(Color.BLACK);
+        restartButton.setFocusPainted(false);
+        restartButton.addActionListener(e -> {
+            resetGame();
+            contentPanel.remove(gameOverScreen);
+            contentPanel.revalidate();
+            contentPanel.repaint();
+        });
 
         JButton quitButton = new JButton("Quit");
-        quitButton.addActionListener(e -> System.exit(0)); 
-        buttonPanel.add(quitButton); 
+        quitButton.setFont(new Font("Arial", Font.BOLD, 18));
+        quitButton.setBackground(Color.WHITE);
+        quitButton.setForeground(Color.BLACK);
+        quitButton.setFocusPainted(false);
+        quitButton.addActionListener(e -> System.exit(0));
 
-        gameOverScreen.add(buttonPanel, BorderLayout.SOUTH); 
+        buttonPanel.add(restartButton);
+        buttonPanel.add(quitButton);
 
-        return gameOverScreen; 
+        gameOverScreen.add(buttonPanel, BorderLayout.CENTER);
+
+        return gameOverScreen;
     }
-    
-    
 
+    public JPanel createGameOverWinScreen() {
+    	stopBackgroundMusic();
+    	playWinSound();
+        JPanel gameOverScreen = new JPanel(new BorderLayout());
+        gameOverScreen.setBackground(Color.BLACK);
 
+        JLabel gameOverLabel = new JLabel("Congratulations, You Won!");
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        gameOverLabel.setForeground(Color.GREEN);
+        gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gameOverLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+        gameOverScreen.add(gameOverLabel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        buttonPanel.setOpaque(false);
+
+        JButton restartButton = new JButton("Restart");
+        restartButton.setFont(new Font("Arial", Font.BOLD, 18));
+        restartButton.setBackground(Color.WHITE);
+        restartButton.setForeground(Color.BLACK);
+        restartButton.setFocusPainted(false);
+        restartButton.addActionListener(e -> {
+            resetGame();
+            contentPanel.remove(gameOverScreen);
+            contentPanel.revalidate();
+            contentPanel.repaint();
+        });
+
+        JButton quitButton = new JButton("Quit");
+        quitButton.setFont(new Font("Arial", Font.BOLD, 18));
+        quitButton.setBackground(Color.WHITE);
+        quitButton.setForeground(Color.BLACK);
+        quitButton.setFocusPainted(false);
+        quitButton.addActionListener(e -> System.exit(0));
+
+        buttonPanel.add(restartButton);
+        buttonPanel.add(quitButton);
+
+        gameOverScreen.add(buttonPanel, BorderLayout.CENTER);
+
+        return gameOverScreen;
+    }
+
+    private void resetGame() {
+        remainingSeconds = 93;
+        pacman.resetScore();
+        timerLabel.setText(formatTime(remainingSeconds));
+        contentPanel.removeAll();
+        showStartScreen();
+        contentPanel.revalidate();
+        contentPanel.repaint();
+        
+        createPauseScreen();
+        JPanel mazePanel = new JPanel();
+        mazePanel.setLayout(new GridLayout(maze.getMapGrid().length, maze.getMapGrid()[0].length));
+        int pelletCount = 0; 
+        createMaze(maze, mazePanel, pelletCount); 
+        
+
+        
+        pacman = new PacMan("images/pacmanrightopen.png", maze, mazePanel, cellSize);
+        pacman.setPosition(387, 200);
+        cyanghost = new CyanGhost(maze, 30);
+        cyanghost.setPosition(52, 40);
+        pinkghost = new PinkGhost(maze, 30);
+        pinkghost.setPosition(725, 45);
+        orangeghost = new OrangeGhost(maze, 30);
+        orangeghost.setPosition(52, 739);
+        redghost = new RedGhost(maze, 30);
+        redghost.setPosition(725, 725);
+        contentPanel.add(cyanghost.getLabel());
+        contentPanel.add(pinkghost.getLabel());
+        contentPanel.add(orangeghost.getLabel());
+        contentPanel.add(redghost.getLabel());
+        contentPanel.add(pacman.getLabel());
+        contentPanel.add(mazePanel);
+        contentPanel.setFocusable(true);
+        contentPanel.requestFocus();
+        contentPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyCode() == KeyEvent.VK_P) {
+                    togglePause();
+                } else {
+                    pacman.move(evt);
+                }
+            }
+        });
+        
+        timer = new Timer(20, new ActionListener() {
+            private int ghostIndex = 0;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isPaused) {
+                    SwingUtilities.invokeLater(() -> {
+                        switch (ghostIndex) {
+                            case 0:
+                                cyanghost.move();
+                                cyanghost.updatePosition();
+                                break;
+                            case 1:
+                                pinkghost.move();
+                                pinkghost.updatePosition();
+                                break;
+                            case 2:
+                                orangeghost.move();
+                                orangeghost.updatePosition();
+                                break;
+                            case 3:
+                                redghost.move();
+                                redghost.updatePosition();
+                                break;
+                        }
+                        ghostIndex = (ghostIndex + 1) % 7;
+                        pacman.updatePosition();
+                        if (!pacman.isPowerUpActive() && checkPacmanGhostCollision(pacman, new Ghost[]{cyanghost, pinkghost, orangeghost, redghost}, 7)) {
+                            handlePacmanGhostCollision();
+                        }
+                        if (maxScore == pacman.getScore()) {
+                            System.out.println("You win!!");
+                            if (timer != null) {
+                                timer.stop();
+                            }
+                            contentPanel.removeAll();
+                            JPanel gameOverScreen = createGameOverWinScreen();
+                            contentPanel.add(gameOverScreen);
+                            contentPanel.revalidate();
+                            contentPanel.repaint();
+                        }
+                    });
+                }
+            }
+        });
+        
+        timer.setInitialDelay(3000);
+        timer.start();
+        
+        startTimer();
+    }
 
 }
 
