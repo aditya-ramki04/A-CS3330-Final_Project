@@ -2,11 +2,15 @@ package edu.mu.PacManMain;
 
 import javax.swing.JLabel;
 
+/**
+ * Represents a orange-colored ghost in the Pac-Man game.
+ */
 public class OrangeGhost extends Ghost {
 	
 	private static final String ORANGE_GHOST_IMAGE = "images/orangeghost.png";
 	
 	/**
+	 * Initializes an OrangeGhost object with the specified maze and cell size.
 	 * 
 	 * @param maze
 	 * @param cellSize
@@ -16,6 +20,7 @@ public class OrangeGhost extends Ghost {
     }
     
     /**
+     * Sets the position of the orange ghost.
      * 
      * @param x
      * @param y

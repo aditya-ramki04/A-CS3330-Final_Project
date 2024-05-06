@@ -2,10 +2,14 @@ package edu.mu.PacManMain;
 
 import javax.swing.JLabel;
 
+/**
+ * Represents a red-colored ghost in the Pac-Man game.
+ */
 public class RedGhost extends Ghost {
 	private static final String RED_GHOST_IMAGE = "images/redghost.png";
 		
 	/**
+	 * Initializes a RedGhost object with the specified maze and cell size.
 	 * 
 	 * @param maze
 	 * @param cellSize
@@ -15,6 +19,7 @@ public class RedGhost extends Ghost {
     }
     
     /**
+     * Sets the position of the pink ghost.
      * 
      * @param x
      * @param y

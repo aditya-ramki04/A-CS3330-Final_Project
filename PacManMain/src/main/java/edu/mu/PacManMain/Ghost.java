@@ -27,6 +27,7 @@ public class Ghost {
     private Random random;
     
     /**
+     * Initializes a Ghost object with the specified image, maze, and cell size.
      * 
      * @param imagePath
      * @param maze
@@ -44,6 +45,7 @@ public class Ghost {
     }
     
     /**
+     * Gets the label associated with the ghost.
      * 
      * @return 
      */
@@ -52,6 +54,7 @@ public class Ghost {
     }
     
     /**
+     * Gets the x-coordinate of the ghost's position.
      * 
      * @return
      */
@@ -60,6 +63,7 @@ public class Ghost {
     }
 
     /**
+     * Gets the y-coordinate of the ghost's position.
      * 
      * @return
      */
@@ -68,6 +72,7 @@ public class Ghost {
     }
 
     /**
+     * Gets the size of the ghost.
      * 
      * @return
      */
@@ -75,7 +80,9 @@ public class Ghost {
         return 30; 
     }
     
-    
+    /**
+     * Moves the ghost according to its current direction.
+     */
     public void move() {
     	int nextX = x;
         int nextY = y;
@@ -110,6 +117,7 @@ public class Ghost {
     }
     
     /**
+     * Checks if the next move is valid.
      * 
      * @param x
      * @param y
@@ -131,12 +139,15 @@ public class Ghost {
         return !isWall; 
     }
     
-    
+    /**
+     * Updates the position of the ghost's label.
+     */
     public void updatePosition() {
         label.setLocation(x, y);
     }
 
     /**
+     * Generates a random direction for the ghost to move.
      * 
      * @return
      */
@@ -145,6 +156,7 @@ public class Ghost {
     }
     
     /**
+     * Sets the image of the ghost.
      * 
      * @param imagePath
      */

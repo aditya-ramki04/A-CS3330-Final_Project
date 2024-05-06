@@ -1,10 +1,14 @@
 package edu.mu.PacManMain;
 
+/**
+ * Represents a pink-colored ghost in the Pac-Man game.
+ */
 public class PinkGhost extends Ghost {
 
 	private static final String PINK_GHOST_IMAGE = "images/pinkghost.png";
 	
 	/**
+	 * Initializes a PinkGhost object with the specified maze and cell size.
 	 * 
 	 * @param maze
 	 * @param cellSize
@@ -14,6 +18,7 @@ public class PinkGhost extends Ghost {
     }
     
     /**
+     * Sets the position of the pink ghost.
      * 
      * @param x
      * @param y

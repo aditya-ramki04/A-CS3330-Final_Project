@@ -1,10 +1,14 @@
 package edu.mu.PacManMain;
 
+/**
+ * Represents a cyan-colored ghost in the Pac-Man game.
+ */
 public class CyanGhost extends Ghost {
 	
 	private static final String CYAN_GHOST_IMAGE = "images/blueghost.png";
 	
 	/**
+	 * Initializes a CyanGhost object with the specified maze and cell size.
 	 * 
 	 * @param maze
 	 * @param cellSize
@@ -14,6 +18,7 @@ public class CyanGhost extends Ghost {
     }
     
     /**
+     * Sets the position of the cyan ghost.
      * 
      * @param x
      * @param y
