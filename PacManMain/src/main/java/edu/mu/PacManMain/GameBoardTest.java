@@ -19,6 +19,8 @@ public class GameBoardTest
     private static final int CELL_SIZE = 38;
     private GameBoard gameBoard;
     private PowerUp powerUp;
+    private Pellet pellet;
+    private Food food;
     
     private int[][] mapGrid = {
     		{11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16},
@@ -44,13 +46,6 @@ public class GameBoardTest
 		    {10, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15}
 		    };
 		    
-//    int[][] mapGrid = {
-//            {0, 0, 0, 0, 0},
-//            {0, 1, 1, 1, 0},
-//            {0, 1, 0, 1, 0},
-//            {0, 1, 1, 1, 0},
-//            {0, 0, 0, 0, 0}
-//        };
 
     
     @Before
@@ -61,6 +56,8 @@ public class GameBoardTest
         ghost = new Ghost("images/ghost.png", mockMaze, CELL_SIZE);
         gameBoard = new GameBoard();
         powerUp = new PowerUp(mockMaze, mockPanel, pacMan);
+        pellet = new Pellet(mockMaze, mockPanel, pacMan);
+        food = new Food(mockMaze, mockPanel, pacMan);
     }
     
 
@@ -70,7 +67,7 @@ public class GameBoardTest
         // Clean up resources if needed
     }
     
-  
+    
     
     @Test
     public void testInitialPosition() {
@@ -82,31 +79,25 @@ public class GameBoardTest
         
     @Test
     public void testEatPowerUp() {
-        // Test consuming a power-up
         int row = 1;
         int col = 1;
-        mockMaze.getMapGrid()[row][col] = 3; // Set up a power-up at (row, col)
+        mockMaze.getMapGrid()[row][col] = 3; 
         powerUp.eatPowerUp(row, col);
-        assertEquals(0, mockMaze.getMapGrid()[row][col]); // Assert that the power-up is consumed
-        assertTrue(pacMan.isPowerUpActive()); // Assert that Pac-Man's power-up status is active
-        // Add more assertions as needed
+        assertEquals(0, mockMaze.getMapGrid()[row][col]); 
+        assertTrue(pacMan.isPowerUpActive()); 
     }
     @Test
     public void testStartPowerUpTimer() {
-        // Test starting the power-up timer
-        assertFalse(pacMan.isPowerUpActive()); // Ensure Pac-Man's power-up status is inactive initially
+        assertFalse(pacMan.isPowerUpActive()); 
         powerUp.startPowerUpTimer();
-        assertTrue(pacMan.isPowerUpActive()); // Assert that Pac-Man's power-up status becomes active after starting the timer
-        // Add more assertions as needed
+        assertTrue(pacMan.isPowerUpActive()); 
     }
     @Test
     public void testCancelPowerUpTimer() {
-        // Test cancelling the power-up timer
-        powerUp.startPowerUpTimer(); // Start the timer first
-        assertTrue(pacMan.isPowerUpActive()); // Ensure Pac-Man's power-up status is active before cancelling
+        powerUp.startPowerUpTimer(); 
+        assertTrue(pacMan.isPowerUpActive()); 
         powerUp.cancelPowerUpTimer();
-        assertFalse(pacMan.isPowerUpActive()); // Assert that Pac-Man's power-up status becomes inactive after cancelling the timer
-        // Add more assertions as needed
+        assertFalse(pacMan.isPowerUpActive()); 
     }
     
     @Test
@@ -150,7 +141,6 @@ public class GameBoardTest
         KeyEvent keyEvent = new KeyEvent(mockPanel, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, 'W');
         int initialY = pacMan.getY();
         pacMan.move(keyEvent);
-        // Adjust the expected result to 0 since moving up from the top-left corner should not change the Y-coordinate
         assertEquals(0, pacMan.getY());
     }
 
@@ -159,7 +149,6 @@ public class GameBoardTest
         KeyEvent keyEvent = new KeyEvent(mockPanel, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'A');
         int initialX = pacMan.getX();
         pacMan.move(keyEvent);
-        // Adjust the expected result to 0 since moving left from the top-left corner should not change the X-coordinate
         assertEquals(0, pacMan.getX());
     }
     
@@ -179,14 +168,24 @@ public class GameBoardTest
 
     @Test
     public void testIsValidMove_InvalidMove_Wall() {
-        // Test against a coordinate where there's a wall (cell value = 1)
         assertFalse(mockMaze.isValidMove(1, 1));
     }
 
     @Test
     public void testIsValidMove_InvalidMove_OutOfBounds() {
-        // Test against a coordinate that is within bounds but not a valid move
         assertFalse(mockMaze.isValidMove(100, 100));
+    }
+    
+    @Test
+    public void testEatPellet() {
+        pellet.eatPellet(CELL_SIZE, CELL_SIZE);
+        assertEquals(100, pacMan.getScore());
+    }
+    
+    @Test
+    public void testEatCherryBonus() {
+        food.eatCherryBonus(CELL_SIZE, CELL_SIZE);
+        assertEquals(1000, pacMan.getScore());
     }
 }
 	
