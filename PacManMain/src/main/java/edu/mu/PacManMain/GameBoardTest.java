@@ -18,6 +18,7 @@ public class GameBoardTest
     private JPanel mockPanel;
     private static final int CELL_SIZE = 38;
     private GameBoard gameBoard;
+    private PowerUp powerUp;
     
     private int[][] mapGrid = {
     		{11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16},
@@ -59,6 +60,7 @@ public class GameBoardTest
         pacMan = new PacMan("images/pacman.png", mockMaze, mockPanel, CELL_SIZE);
         ghost = new Ghost("images/ghost.png", mockMaze, CELL_SIZE);
         gameBoard = new GameBoard();
+        powerUp = new PowerUp(mockMaze, mockPanel, pacMan);
     }
     
 
@@ -78,6 +80,35 @@ public class GameBoardTest
         assertEquals(0, ghost.getY());
     }
         
+    @Test
+    public void testEatPowerUp() {
+        // Test consuming a power-up
+        int row = 1;
+        int col = 1;
+        mockMaze.getMapGrid()[row][col] = 3; // Set up a power-up at (row, col)
+        powerUp.eatPowerUp(row, col);
+        assertEquals(0, mockMaze.getMapGrid()[row][col]); // Assert that the power-up is consumed
+        assertTrue(pacMan.isPowerUpActive()); // Assert that Pac-Man's power-up status is active
+        // Add more assertions as needed
+    }
+    @Test
+    public void testStartPowerUpTimer() {
+        // Test starting the power-up timer
+        assertFalse(pacMan.isPowerUpActive()); // Ensure Pac-Man's power-up status is inactive initially
+        powerUp.startPowerUpTimer();
+        assertTrue(pacMan.isPowerUpActive()); // Assert that Pac-Man's power-up status becomes active after starting the timer
+        // Add more assertions as needed
+    }
+    @Test
+    public void testCancelPowerUpTimer() {
+        // Test cancelling the power-up timer
+        powerUp.startPowerUpTimer(); // Start the timer first
+        assertTrue(pacMan.isPowerUpActive()); // Ensure Pac-Man's power-up status is active before cancelling
+        powerUp.cancelPowerUpTimer();
+        assertFalse(pacMan.isPowerUpActive()); // Assert that Pac-Man's power-up status becomes inactive after cancelling the timer
+        // Add more assertions as needed
+    }
+    
     @Test
     public void testCyanGhostInitialPosition() {
         CyanGhost cyanGhost = new CyanGhost(mockMaze, CELL_SIZE);
@@ -106,8 +137,6 @@ public class GameBoardTest
         assertEquals(0, pinkGhost.getY());
     }
 
-  
-    
     @Test
     public void testMoveDown() {
         KeyEvent keyEvent = new KeyEvent(mockPanel, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, 'S');

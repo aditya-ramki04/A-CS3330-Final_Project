@@ -19,6 +19,7 @@ public class PowerUp {
     private PacMan pacMan;
     private Timer powerUpTimer;
     private int remainingTime = 0; 
+  
    
         
     /**
@@ -32,6 +33,7 @@ public class PowerUp {
         this.maze = maze;
         this.mazePanel = mazePanel;
         this.pacMan = pacMan;
+        
     }
     
     /**
@@ -79,7 +81,7 @@ public class PowerUp {
      * During this time, Pac-Man's movement speed is increased, and
      * he becomes invulnerable to ghosts.
      */
-    private void startPowerUpTimer() {
+    void startPowerUpTimer() {
         pacMan.setPowerUpActive(true);
 
         powerUpTimer = new Timer();

@@ -224,6 +224,14 @@ public class GameBoard extends JFrame {
 
     }
     
+    /**
+     * Creates the maze grid and populates it with maze elements such as walls, pellets,
+     * power-ups, and ghosts. Also sets up the timer label and initializes the game frame.
+     *
+     * @param maze         The Maze object representing the game's maze grid.
+     * @param mazePanel    The JPanel where the maze grid will be displayed.
+     * @param pelletCount  The initial count of pellets in the maze.
+     */
     public void createMaze(Maze maze, JPanel mazePanel, int pelletCount) {
         BufferedImage pelletImg = null;
 		try {
@@ -376,7 +384,10 @@ public class GameBoard extends JFrame {
         }
     }
     
-    
+    /**
+     * Handles the collision between Pac-Man and ghosts.
+     * Stops the game loop timer, plays the Pac-Man death sound, and displays the game over screen.
+     */
     public void handlePacmanGhostCollision() {
         System.out.println("Pacman collided with a ghost! Game over.");
      
@@ -393,7 +404,14 @@ public class GameBoard extends JFrame {
         contentPanel.repaint();
     }
 
-    
+    /**
+     * Checks for collision between Pac-Man and ghosts.
+     *
+     * @param pacman       The Pac-Man object.
+     * @param ghosts       An array of Ghost objects representing the ghosts in the game.
+     * @param safetyMargin The safety margin to consider around the objects for collision detection.
+     * @return True if there is a collision between Pac-Man and any of the ghosts, otherwise false.
+     */
     public boolean checkPacmanGhostCollision(PacMan pacman, Ghost[] ghosts, int safetyMargin) 
     {
        
@@ -417,7 +435,11 @@ public class GameBoard extends JFrame {
     	
     }
     
-    
+    /**
+     * Starts the countdown timer for the game.
+     * Updates the remaining time label every second.
+     * Displays the game over screen when the time runs out.
+     */
     private void startTimer() {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
@@ -442,6 +464,12 @@ public class GameBoard extends JFrame {
         timer.start();
     }
 
+    /**
+     * Formats the time in seconds to display in minutes and seconds format.
+     *
+     * @param seconds The time remaining in seconds.
+     * @return The formatted time string (e.g., "2:30" for 2 minutes and 30 seconds).
+     */
     private String formatTime(int seconds) {
         int minutes = seconds / 60;
         int secs = seconds % 60;
@@ -449,7 +477,10 @@ public class GameBoard extends JFrame {
     }
 
     
-
+    /**
+     * Creates the pause screen with options to toggle audio, adjust volume, and resume the game.
+     * Displays the pause screen when the game is paused.
+     */
     private void createPauseScreen() {
         pauseScreen = new JPanel() {
             @Override
@@ -508,6 +539,11 @@ public class GameBoard extends JFrame {
         contentPanel.add(pauseScreen); 
     }
     
+    /**
+     * Adjusts the volume of the background music based on the slider value.
+     *
+     * @param volume The volume level (0-100) set by the user.
+     */
     private void adjustBackgroundMusicVolume(int volume) {
         if (bgMusic != null && bgMusic.isOpen()) {
             FloatControl gainControl = (FloatControl) bgMusic.getControl(FloatControl.Type.MASTER_GAIN);
@@ -517,7 +553,10 @@ public class GameBoard extends JFrame {
     }
 
     private boolean isAudio;
-    
+    /**
+     * Toggles the audio on/off based on the current state.
+     * Stops/starts the background music accordingly.
+     */
     private void toggleAudio() {
         isAudio = !isAudio;
         if (isAudio) {
@@ -533,7 +572,11 @@ public class GameBoard extends JFrame {
     
     
     private boolean isPaused = false;
-    
+    /**
+     * Toggles the game pause state.
+     * Pauses/resumes the game and displays/hides the pause screen.
+     */
+
     private void togglePause() {
         isPaused = !isPaused;
         pauseScreen.setVisible(isPaused);
@@ -544,7 +587,10 @@ public class GameBoard extends JFrame {
     }
 
 
- 
+    /**
+     * Displays the start screen with the game title, Pac-Man image, and start button.
+     * Starts the background music when the game starts.
+     */
     private void showStartScreen() {
 
         startScreen = new JPanel();
@@ -598,7 +644,9 @@ public class GameBoard extends JFrame {
 
 
 
-    
+    /**
+     * Plays the background music for the game.
+     */
     private void playBackgroundMusic() {
         try {
            
@@ -615,14 +663,18 @@ public class GameBoard extends JFrame {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Stops the background music playback.
+     */
     private void stopBackgroundMusic() {
         if (bgMusic != null && bgMusic.isRunning()) {
             bgMusic.stop(); 
             bgMusic.close(); 
         }
     }
-    
+    /**
+     * Plays the Pac-Man death sound effect.
+     */
     private void playPacmanDeathSound() {
         try {
             File audioFile = new File("./Audio/womp_womp.wav");
@@ -639,6 +691,9 @@ public class GameBoard extends JFrame {
         }
     }
     
+    /**
+     * Plays the victory sound effect when the player wins the game.
+     */
     private void playWinSound() {
         try {
          
@@ -658,6 +713,11 @@ public class GameBoard extends JFrame {
         }
     }
     
+    /**
+     * Creates the game over screen with options to quit the game.
+     *
+     * @return The JPanel representing the game over screen.
+     */
     public JPanel createGameOverScreen() {
         JPanel gameOverScreen = new JPanel(new BorderLayout());
         gameOverScreen.setBackground(Color.BLACK);
@@ -688,6 +748,11 @@ public class GameBoard extends JFrame {
         return gameOverScreen;
     }
 
+    /**
+     * Creates the game over screen for the win condition with options to quit the game.
+     *
+     * @return The JPanel representing the win screen.
+     */
     public JPanel createGameOverWinScreen() {
     	stopBackgroundMusic();
     	playWinSound();
