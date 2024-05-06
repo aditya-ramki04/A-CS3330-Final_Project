@@ -20,9 +20,7 @@ public class PowerUp {
     private Timer powerUpTimer;
     private int remainingTime = 0; 
    
-    private ScorePanel sPanel;
-
-    
+        
     /**
      * Constructs a PowerUp object with the specified maze, maze panel, and Pac-Man character.
      *
@@ -49,6 +47,7 @@ public class PowerUp {
 
         if (maze.getMapGrid()[row][col] == 3) { 
             maze.getMapGrid()[row][col] = 0; 
+            System.out.println("Power-up Eaten!");
             pacMan.incrementScore(500); 
             pacMan.setPowerUpActive(true); 
             playPowerUpSound();

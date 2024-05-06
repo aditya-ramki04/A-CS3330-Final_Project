@@ -47,7 +47,7 @@ public class GameBoard extends JFrame {
     private int maxScore = 22400;
     
     private JFrame frame;
-    private ScorePanel scorePanel;
+    
 
         
     public static void main(String[] args) {
@@ -106,6 +106,7 @@ public class GameBoard extends JFrame {
         mazePanel.setLayout(new GridLayout(maze.getMapGrid().length, maze.getMapGrid()[0].length));
         
        
+   
         timerLabel = new JLabel(formatTime(remainingSeconds), SwingConstants.TRAILING);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 16));
         timerLabel.setForeground(Color.WHITE);
@@ -117,16 +118,7 @@ public class GameBoard extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
 
-        scorePanel = new ScorePanel();
-        
-        frame.getContentPane().add(scorePanel, BorderLayout.NORTH);
-        
-        frame.pack();
-        frame.setVisible(true);
-        
-        JLabel scoreLabel = new JLabel();
-        
-     
+                    
         createMaze(maze, mazePanel, pelletCount);
 
 

@@ -37,7 +37,7 @@ public class Food {
         
         if (maze.getMapGrid()[row][col] == 4) { 
             maze.getMapGrid()[row][col] = 0; 
-            System.out.println("Cherry Bonus eaten at row: " + row + ", col: " + col);
+            System.out.println("Cherry Bonus eaten");
             pacMan.incrementScore(1000);
             
             Component[] components = mazePanel.getComponents();

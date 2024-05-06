@@ -12,10 +12,7 @@ public class Pellet {
     private Maze maze;
     private PacMan pacMan;
     
-    private ScorePanel sPanel;
-
-
-    /**
+     /**
      * Constructs a Pellet object with the specified maze, maze panel, and Pac-Man character.
      *
      * @param maze      The maze grid containing information about the game layout.
